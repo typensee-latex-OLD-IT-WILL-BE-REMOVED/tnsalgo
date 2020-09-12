@@ -1,0 +1,58 @@
+\documentclass[12pt,a4paper]{article}
+
+\makeatletter
+	\input{../config/header[fr].sty}
+
+	\usepackage{00-keywords}
+\makeatother
+
+
+
+\begin{document}
+
+%\section{Algorithmes en langage naturel}
+
+%\subsection{Des macros pour structurer les algorithmes}
+
+\subsubsection{Citer les structures algorithmiques}
+
+Pour faciliter la rédaction de textes sur les algorithmes, des macros standardisent l'impression des noms des outils de structure. On peut ainsi parler de tests \txtIf\ , \txtIfElseIfElse\ et de boucles \txtWhile\, ou si l'on préfère de \txtIf*\ , \txtIfElseIfElse*\ et \txtWhile*{} avec une police de type True Type à chasse fixe.
+Ci-dessous, le préfixe \prefix{txt} est pour \prefix{text} eest la casse est celle des macros utilisables dans en algorithme.
+
+
+% == Text tools - START == %
+
+\begin{enumerate}
+
+    \item Liste des commandes de type \og algorithme \fg{}.
+
+    \begin{enumerate}[label=\alph*)]
+        \item \verb#\txtIf          # \,donne\, \txtIf.
+        \item \verb#\txtIfElse      # \,donne\, \txtIfElse.
+        \item \verb#\txtIfElseIf    # \,donne\, \txtIfElseIf.
+        \item \verb#\txtIfElseIfElse# \,donne\, \txtIfElseIfElse.
+        \item \verb#\txtSwitch      # \,donne\, \txtSwitch.
+    \smallskip
+        \item \verb#\txtFor         # \,donne\, \txtFor.
+        \item \verb#\txtWhile       # \,donne\, \txtWhile.
+        \item \verb#\txtRepeat      # \,donne\, \txtRepeat.
+    \end{enumerate}
+
+    \item Liste des commandes de type \og True Type \fg{}.
+
+    \begin{enumerate}[label=\alph*)]
+        \item \verb#\txtIf*          # \,donne\, \txtIf*.
+        \item \verb#\txtIfElse*      # \,donne\, \txtIfElse*.
+        \item \verb#\txtIfElseIf*    # \,donne\, \txtIfElseIf*.
+        \item \verb#\txtIfElseIfElse*# \,donne\, \txtIfElseIfElse*.
+        \item \verb#\txtSwitch*      # \,donne\, \txtSwitch*.
+    \smallskip
+        \item \verb#\txtFor*         # \,donne\, \txtFor*.
+        \item \verb#\txtWhile*       # \,donne\, \txtWhile*.
+        \item \verb#\txtRepeat*      # \,donne\, \txtRepeat*.
+    \end{enumerate}
+\end{enumerate}
+
+% == Text tools - END == %
+
+\end{document}

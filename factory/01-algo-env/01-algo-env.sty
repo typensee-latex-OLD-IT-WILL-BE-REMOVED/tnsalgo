@@ -1,0 +1,76 @@
+% == PACKAGES USED == %
+
+\RequirePackage[french, vlined]{algorithm2e}
+\RequirePackage{tcolorbox}
+
+\RequirePackage{simplekv}
+
+
+% == DEFINITIONS == %
+
+% -- ENVIRONMENT -- %
+
+\setKVdefault[tnspalgo@algo@env@keys]{%
+    frame   = false,
+    center  = false,
+    notitle = false,
+    title   = {},
+    scale   = 1
+}
+
+
+\newenvironment{algo}[1][]{
+    \useKVdefault[tnspalgo@algo@env@keys]%
+    \setKV[tnspalgo@algo@env@keys]{#1}%
+    \edef\thisscale{\useKV[tnspalgo@algo@env@keys]{scale}}%
+    \edef\thistitle{\useKV[tnspalgo@algo@env@keys]{title}}%
+    %
+    \ifboolKV[tnspalgo@algo@env@keys]{center}{\centering}{}
+    %
+    \ifboolKV[tnspalgo@algo@env@keys]{frame}{%
+    	\begin{tcolorbox}[
+    		colback = white,
+    		width   = \thisscale\linewidth,
+    		breakable
+    	]
+			\vspace{-0.25em}
+	}{}
+			\begin{algorithm}[H]
+	% Title ?
+	\ifboolKV[tnspalgo@algo@env@keys]{notitle}{}{
+	% Empty tile
+    	\if\relax\thistitle\relax
+    		\tnspalgo@void@caption{}
+	% None empty tile
+    	\else
+    		\caption{\thistitle}
+    	\fi
+	}
+}{
+			\end{algorithm}
+	%
+    \ifboolKV[tnspalgo@algo@env@keys]{frame}{%
+			\vspace{-0.5em}
+		\end{tcolorbox}
+	}{}
+}
+
+
+
+% -- CAPTIONS -- %
+
+% Source
+%	* https://tex.stackovernet.com/fr/q/66875#214011
+%	* https://tex.stackexchange.com/a/510498/6880
+
+\renewcommand{\@algocf@capt@plain}{above}
+\renewcommand{\algocf@caption@plain}{\box\algocf@capbox\vskip\AlCapSkip}%
+
+\setlength{\AlCapSkip}{.1em}
+
+
+\newcommand\tnspalgo@void@caption{
+	\SetAlgoCaptionSeparator{}	% No separator (default colon)
+	\SetAlCapNameSty{}			% No caption text
+	\caption{}
+}

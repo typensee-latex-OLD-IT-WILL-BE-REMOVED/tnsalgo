@@ -1,0 +1,152 @@
+\documentclass[12pt,a4paper]{article}
+
+\makeatletter
+    \input{../config/header[fr].sty}
+
+    \usepackage{01-flowchart}
+\makeatother
+
+
+\newcommand\Store{\leftarrow}
+\newcommand\List[1]{[\,#1\,]}
+\newcommand\EmptyList{\List{}}
+
+
+\begin{document}
+
+%\section{Ordinogrammes}
+
+\subsection{Les styles proposés}
+
+À la norme officielle, nous avons préféré un style plus percutant où les formes des cadres sont bien différenciées.
+
+
+% -------------- %
+
+
+\subsubsection{Entrée et sortie}
+
+L'entrée et la sortie de l'algorithme sont représentés par des ovales comme dans l'exemple ci-après. Par convention, l'entrée se situe tout en haut de l'ordinogramme, et la sortie tout en bas.
+Indiquons que \verb+io+ dans \verb+acio+ fait référence à \og input / output \fg{} soit \og entrée / sortie \fg{} en anglais.
+
+\inputlatexex{examples/ac-showcase-io.tkz}
+
+
+Dans le code ci-dessus, nous utilisons le style \verb+acio+ en l'indiquant entre des crochets.
+La machinerie \verb#TikZ# permet de changer localement un réglage comme ci-après où l'on modifie la largeur de l'ellipse pour n'avoir qu'une seule ligne de texte.
+
+\inputlatexex{examples/ac-showcase-io-flatten.tkz}
+
+
+% -------------- %
+
+
+\subsubsection{Les instructions}
+
+Dans l'exemple suivant, qui ne nécessite aucun commentaire
+\footnote{
+	Chercher l'erreur\dots
+},
+nous avons dû régler à la main la largeur du cadre pour ne pas avoir un retour à la ligne.
+
+
+\inputlatexex{examples/ac-showcase-instruction.tkz}
+
+
+% -------------- %
+
+
+\subsubsection{Les tests conditionnels via un exemple complet}
+
+Nous allons voir comment obtenir le résultat suivant qui contient une structure conditionnelle. Nous allons en profiter pour expliquer comment placer les noeuds les uns par rapport aux autres, et aussi voir comment ajouter des connexions via la macro \verb+\path+ proposée par \verb#TikZ#.
+
+
+\begin{center}
+    \small
+    \input{examples/ac-if-absolute.tkz}
+\end{center}
+
+
+Voici le code utilisé pour obtenir l'ordinogramme ci-dessus.
+
+\medskip
+
+\inputlatexexalone{examples/ac-if-absolute.tkz}
+
+
+Donnons des explications sur les points délicats du code précédent.
+
+\begin{enumerate}
+	\item \verb+\node[acio] (input) {$n \in \NN$}+
+	      
+	      \smallskip
+	      Ici on définit \verb+input+ comme alias du noeud via \verb+(input)+, un alias utilisable ensuite pour différentes actions graphiques. 
+
+	\medskip
+	\item \verb+\node[acif, below of = input] (is-neg) {$n < 0$ ?}+
+
+	      \smallskip
+	      Ici on demande de placer le noeud nommé \verb+is-neg+ sous celui nommé \verb+input+ via \verb+below of = input+ où \og below of \fg{} se traduit par \inenglish{en dessous de}.
+	      Attention au signe égal dans \verb+below of = input+.
+	
+	\medskip
+	\item \verb|\node[acinstr, right] at ($(is-neg) + (2.5,0)$) (neg) {$res \Store (-n)$}|
+	      
+	      \smallskip
+	      Dans cette commande un peu plus mystique, l'emploi de \verb+right+ indique de se placer à droite du dernier noeud.
+	      Vient ensuite la cabalistique instruction \verb|at ($(is-neg) + (2.5,0)$)|.
+	      Comme \og at \fg{} signifie \inenglish{à (tel endroit)}, on comprend que l'on demande de placer le noeud à une certaine position.
+	       Il faut alors savoir que pour \verb#TikZ# l'usage de \verb|($...$)| indique de faire un calcul qui ici est celui d'addition de coordonnées cartésiennes via \verb|(is-neg) + (2.5,0)|. 
+	
+	\medskip
+	\item \verb+\path[aclink] (input) -- (is-neg)+
+	      
+	      \smallskip
+	      Cette instruction plus simple demande de tracer, avec le style \verb+aclink+, un trait entre les noeuds \verb+input+ et \verb+is-neg+.
+	
+	\medskip
+	\item \verb+\path[aclink] (is-neg) -- (neg) \aclabelabove{oui}+
+	      
+	      \smallskip
+	      La nouveauté ici est l'utilisation de la macro \verb+\aclabelabove{oui}+ proposée par \verb#tnsalgo# pour placer du texte au début et au dessus de la connexion.
+	      Rappelons que \og above \fg{} signifie \inenglish{au-dessus}. 
+
+	\medskip
+	\item \verb+\path[aclink] (neg) to[aczigzag] (output);+
+	      
+	      \smallskip
+	      Cette instruction permet d'obtenir \og l'orthopolyligne \fg{} 
+	      \footnote{
+	          Un néologisme ?
+	      }
+	      de \fbox{$res \Store (-n)$} vers \fbox{$res\vphantom{(-n)}$} .
+	      Vous pouvez utiliser \verb+to[aczigzag = {xstart = ... , x = ... , y = ....}]+ pour des réglages personnalisés.
+	      Par défaut les clés optionnelles suivent le réglage \verb+xstart = 0mm+ , un décalage au début de la connexion , \verb+x = 3mm+ , un décalage à la fin de la connexion, et \verb+y = 5mm+, un autre décalage à la fin de la connexion.
+\end{enumerate}
+
+
+% -------------- %
+
+
+\subsubsection{Les boucles}
+
+L'exemple très farfelu qui suit montre comment dessiner une petite boucle en faisant ressortir les instructions liées au fonctionnement de la boucle \emph{(cet effet est impossible à obtenir en mode noir et blanc : voir la section \ref{tnsalgo-bw-mode} à ce sujet)}.
+On voit au passage la limite d'utilisabilité des ordinogrammes car ces derniers ne proposent pas de mise en forme efficace pour les boucles.
+
+
+\begin{center}
+    \small
+    \input{examples/ac-strange-loop.tkz}
+\end{center}
+
+
+Voici le code que nous avons utilisé. Les seules vraies nouveautés sont l'utilisation du style \verb+acifinstr+ pour mieux visualiser les instructions liées à la boucle, et l'usage de \verb+to[acbackloopleft]+ pour la connexion en retour arrière par la gauche.
+Vous pouvez utiliser \verb+to[acbackloopleft = {x = ... }]+  pour régler le décalage vers la gauche.
+Par défaut, \verb+x = 5em+.
+De façon analogue, on peut utiliser \verb+to[acbackloopright]+ pour un retour arrière par la droite. 
+
+\medskip
+
+\inputlatexexalone{examples/ac-strange-loop.tkz}
+
+\end{document}

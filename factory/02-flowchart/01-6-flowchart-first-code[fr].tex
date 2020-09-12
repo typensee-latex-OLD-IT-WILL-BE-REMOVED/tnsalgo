@@ -1,0 +1,34 @@
+\documentclass[12pt,a4paper]{article}
+
+\makeatletter
+    \input{../config/header[fr].sty}
+
+    \usepackage{01-flowchart}
+\makeatother
+
+
+\newcommand\Store{\leftarrow}
+\newcommand\List[1]{[\,#1\,]}
+\newcommand\EmptyList{\List{}}
+
+
+\begin{document}
+
+%\section{Ordinogrammes}
+
+\subsection{Code du tout premier exemple} \label{tnsalgo-flowchart-firstexa-code}
+
+Nous (re)donnons la version noir et blanc de l'ordinogramme présenté au début de la section \ref{tnsalgo-flowchart-firstexa}.
+
+\acusebw
+\begin{center}
+    \small
+    \input{examples/ac-merly-2nd-degree.tkz}
+\end{center}
+\acusecolor
+
+Ce diagramme s'obtient via le code suivant.
+
+\inputlatexexalone{examples/ac-merly-2nd-degree.tkz}
+
+\end{document}

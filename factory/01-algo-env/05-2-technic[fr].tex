@@ -1,0 +1,185 @@
+\documentclass[12pt,a4paper]{article}
+
+\makeatletter
+	\input{../config/header[fr].sty}
+	\usepackage{00-keywords}
+
+	\input{01-algo-env.sty}
+\makeatother
+
+
+\begin{document}
+
+%\section{Algorithmes en langage naturel}
+
+%\subsection{Des macros pour structurer les algorithmes}
+
+\subsection{Fiches techniques}
+
+\IDope{Len}
+
+
+% ---------------------- %
+
+
+\separation
+
+
+\IDope{EmptyList}
+
+
+% ---------------------- %
+
+
+\separation
+
+
+\IDmacro[a]{List}{1}
+
+\IDarg{} le contenu explicite de la liste.
+
+
+% ---------------------- %
+
+
+\separation
+
+
+\IDmacro[a]{ListElt}{2}
+
+\IDarg{1} le nom de la liste.
+
+\IDarg{2} le rang de l'élément à lire.
+
+
+% ---------------------- %
+
+
+\separation
+
+
+\IDmacro[a]{ListUntil}{2}
+
+\IDarg{1} le nom de la liste.
+
+\IDarg{2} le rang du dernier élément de la sous-liste extraite.
+
+
+% ---------------------- %
+
+
+\separation
+
+
+\IDmacro[a]{ListFrom}{2}
+
+\IDarg{1} le nom de la liste.
+
+\IDarg{2} le rang du premier élément de la sous-liste extraite.
+
+
+% ---------------------- %
+
+
+\separation
+
+
+\IDmacro[a]{Append  }{2}
+
+\IDmacro[a]{Append* }{2}
+
+\IDmacro[a]{Append**}{2}
+
+\IDarg{1} le nom de la liste.
+
+\IDarg{2} élément à ajouter après la fin de la liste.
+
+
+% ---------------------- %
+
+
+\separation
+
+
+\IDmacro[a]{Prepend  }{2}
+
+\IDmacro[a]{Prepend* }{2}
+
+\IDmacro[a]{Prepend**}{2}
+
+\IDarg{1} le nom de la liste.
+
+\IDarg{2} élément à ajouter avant le début de la liste.
+
+
+% ---------------------- %
+
+
+\separation
+
+
+\IDmacro[a]{PopAt }{2}
+
+\IDmacro[a]{PopAt*}{2}
+
+\IDarg{1} le nom de la liste.
+
+\IDarg{2} indice de l'élément à retirer.
+
+
+% ---------------------- %
+
+
+\separation
+
+
+\IDmacro[a]{PopAt**}{3}
+
+\IDarg{1} variable où stocker l'élément retiré.
+
+\IDarg{2} le nom de la liste.
+
+\IDarg{3} indice de l'élément à retirer.
+
+
+% ---------------------- %
+
+
+\separation
+
+
+\IDmacro[a]{KeepLR}{3}
+
+\IDarg{1} le nom de la liste.
+
+\IDarg{2} indice où commencer l'extraction.
+
+\IDarg{3} indice où finir l'extraction.
+
+
+% ---------------------- %
+
+
+\separation
+
+
+\IDmacro[a]{KeepL}{2}
+
+\IDarg{1} le nom de la liste.
+
+\IDarg{2} indice où finir l'extraction.
+
+
+% ---------------------- %
+
+
+\separation
+
+
+\IDmacro[a]{KeepR}{2}
+
+\IDarg{1} le nom de la liste.
+
+\IDarg{2} indice où commencer l'extraction.
+
+\end{document}

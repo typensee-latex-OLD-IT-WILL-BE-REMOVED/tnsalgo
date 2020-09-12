@@ -1,0 +1,75 @@
+\documentclass[12pt,a4paper]{article}
+
+\makeatletter
+	\input{../config/header[fr].sty}
+	\input{02-algo-structure.sty}
+	\input{04-interval.sty}
+	\input{05-list.sty}
+
+	\input{01-algo-env.sty}
+	
+	\usepackage{00-keywords}
+\makeatother
+
+
+
+\begin{document}
+
+%\section{Algorithmes en langage naturel}
+
+%\subsection{Des macros pour structurer les algorithmes}
+
+\subsubsection{Boucles \txtWhile*}
+
+\inputlatexex{examples/keyword-loop-while.extra.tex}
+
+
+% ---------------------- %
+
+
+\subsubsection{Boucles \txtRepeat*}
+
+\inputlatexex{examples/keyword-loop-repeat.extra.tex}
+
+
+% ---------------------- %
+
+
+\subsubsection{Boucles \txtFor*}
+
+\newparaexample{Boucles généralistes}
+
+\inputlatexex{examples/keyword-loop-for.extra.tex}
+
+\inputlatexex{examples/keyword-loop-forall.extra.tex}
+
+\inputlatexex{examples/keyword-loop-foreach.extra.tex}
+
+
+% ---------------------- %
+
+
+\newparaexample{Boucles sur des entiers consécutifs}
+
+Les boucles présentées ci-dessous passent toutes leurs arguments en mode mathématique. 
+
+\inputlatexex{examples/keyword-loop-forrange-no-star.extra.tex}
+
+\inputlatexex{examples/keyword-loop-forrange-star.extra.tex}
+
+\inputlatexex{examples/keyword-loop-forrange-star-star.extra.tex}
+
+
+% ---------------------- %
+
+
+\newparaexample{Boucles spécifiques aux listes}
+
+Les boucles présentées ci-après passent elles aussi leurs arguments en mode mathématique. 
+
+\inputlatexex{examples/keyword-loop-forinlist.extra.tex}
+
+\inputlatexex{examples/keyword-loop-forinlist-rev.extra.tex}
+
+\end{document}
+

@@ -1,0 +1,88 @@
+\documentclass[12pt,a4paper]{article}
+
+\makeatletter
+	\input{../config/header[fr].sty}
+	\input{00-keywords.sty}
+	\input{01-algo-env.sty}
+	\input{03-affectation.sty}
+\makeatother
+
+
+
+\begin{document}
+
+\newpage
+
+\section{Algorithmes en langage naturel}
+
+\subsection{Comment taper les algorithmes avec \texttt{algorithm2e}}
+
+Le gros du travail est fait par le package \verb#algorithm2e# qui propose une syntaxe de saisie très simple.
+La mise en forme par défaut de \verb#algorithm2e# utilise des flottants, chose qui peut poser des problèmes pour de longs algorithmes ou, plus gênant, pour des algorithmes en bas de page.
+Dans \verb#tnsalgo# il a été fait le choix de ne pas utiliser de flottants avec un placement libre, un choix lié à l'utilisation faite de \verb#tnsalgo# par son auteur pour rédiger des cours de niveau lycée. 
+
+
+\medskip
+
+
+Voici ce qu'il est possible d'obtenir sans trop d'efforts avec tous les mots clés en français car c'est langue choisie avec \verb#babel#.
+
+
+\bigskip
+\input{examples/algo-natural-syracuse.extra.tex}
+\bigskip
+
+
+La rédaction d'un tel algorithme se fait facilement via un code proche de ce que pourrait proposer un langage classique de programmation tel que le \Verb#C# \emph{(nous donnons juste après le squelette de la syntaxe propre à \texttt{algorithm2e})}.
+Indiquons au passage que le titre s'indique via une option
+\footnote{
+	Avec \texttt{algorithm2e} le titre s'ajoute via la macro \macro{caption}.
+	Nous verrons que l'option proposée par \texttt{tnsalgo} autorise d'avoir sans difficulté un algorithme juste numéroté mais sans titre particulier.
+}
+et aussi que sont utilisées des macros additionnelles proposées par \verb#tnsalgo# ainsi que \macro{NN} et \macro{ZintervalC} fournies par \verb#tnsmath#.
+
+
+\inputlatexexalone{examples/algo-natural-syracuse.extra.tex}
+
+
+Le squelette du code précédent est le suivant. Ceci ressemble bien à du code \verb#C#. 
+
+
+\begin{latexex-alone}
+\caption{...}
+
+\Data{...}
+\Result{...}
+
+\Actions{
+    ...
+    \While{...}{
+        \uIf{...}{
+            ...
+        } \Else {
+            ...
+            \uIf{...}{
+                ...
+            } \Else {
+                ...
+            }
+            ...
+        }
+    }
+    \If{...}{
+        ...
+    }
+    \Return{...}
+}
+\end{latexex-alone}
+
+
+% ---------------------- %
+
+
+\subsection{Numérotation des algorithmes}
+
+Avant de continuer les présentations il faut savoir que tous les algorithmes sont numérotés globalement à l'ensemble du document. C'est plus simple et efficace pour une lecture sur papier.
+
+
+\end{document}

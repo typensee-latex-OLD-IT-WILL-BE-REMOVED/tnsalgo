@@ -1,0 +1,92 @@
+\newcommand\uselangFR{
+% Textual versions
+    \protected\def\txtIf{\@ifstar\tnsalgo@txtIf@star\tnsalgo@txtIf@no@star}
+    \def\tnsalgo@txtIf@no@star{\textbf{Si}}
+    \def\tnsalgo@txtIf@star{\texttt{Si}}
+
+    \protected\def\txtIfElse{\@ifstar\tnsalgo@txtIfElse@star\tnsalgo@txtIfElse@no@star}
+    \def\tnsalgo@txtIfElse@no@star{\textbf{Si\,--\,Sinon}}
+    \def\tnsalgo@txtIfElse@star{\texttt{Si\,-\,Sinon}}
+
+    \protected\def\txtIfElseIf{\@ifstar\tnsalgo@txtIfElseIf@star\tnsalgo@txtIfElseIf@no@star}
+    \def\tnsalgo@txtIfElseIf@no@star{\textbf{Si\,--\,Sinon\,--\,Si}}
+    \def\tnsalgo@txtIfElseIf@star{\texttt{Si\,-\,Sinon\,-\,Si}}
+
+    \protected\def\txtIfElseIfElse{\@ifstar\tnsalgo@txtIfElseIfElse@star\tnsalgo@txtIfElseIfElse@no@star}
+    \def\tnsalgo@txtIfElseIfElse@no@star{\textbf{Si\,--\,Sinon Si\,--\,Sinon}}
+    \def\tnsalgo@txtIfElseIfElse@star{\texttt{Si\,-\,Sinon Si\,-\,Sinon}}
+
+    \protected\def\txtFor{\@ifstar\tnsalgo@txtFor@star\tnsalgo@txtFor@no@star}
+    \def\tnsalgo@txtFor@no@star{\textbf{Pour}}
+    \def\tnsalgo@txtFor@star{\texttt{Pour}}
+
+    \protected\def\txtWhile{\@ifstar\tnsalgo@txtWhile@star\tnsalgo@txtWhile@no@star}
+    \def\tnsalgo@txtWhile@no@star{\textbf{Tant Que}}
+    \def\tnsalgo@txtWhile@star{\texttt{Tant Que}}
+
+    \protected\def\txtRepeat{\@ifstar\tnsalgo@txtRepeat@star\tnsalgo@txtRepeat@no@star}
+    \def\tnsalgo@txtRepeat@no@star{\textbf{Répéter\,--\,Jusqu'à Avoir}}
+    \def\tnsalgo@txtRepeat@star{\texttt{Répéter\,-\,Jusqu'à Avoir}}
+
+    \protected\def\txtSwitch{\@ifstar\tnsalgo@txtSwitch@star\tnsalgo@txtSwitch@no@star}
+    \def\tnsalgo@txtSwitch@no@star{\textbf{Suivant\,--\,Cas}}
+    \def\tnsalgo@txtSwitch@star{\texttt{Suivant\,-\,Cas}}
+
+% For
+    \SetKwFor{For}{Pour}{:}{}
+    \SetKwFor{ForAll}{{Pour Tout}}{:}{}
+    \SetKwFor{ForEach}{{Pour Chaque}}{:}{}
+    \SetKwFor{While}{{Tant Que}}{:}{}
+    
+% Repeat
+    \SetKwRepeat{Repeat}{Répéter}{{Jusqu'à Avoir}}
+    
+% Word
+    \SetKw{And}{et}
+    \SetKw{Or}{ou}
+    
+% Ifelif
+    \SetKwIF{If}{ElseIf}{Else}{Si}{:}{{Sinon Si}}{Sinon}{}
+    
+% Switch
+    \SetKwSwitch{Switch}{Case}{Other}{Suivant}{:}{Cas}{Autre}{}{}
+    
+% Word
+    \SetKw{From}{de}
+    \SetKw{To}{à}
+    \SetKw{ComingFrom}{{allant de}}
+    \SetKw{GoingTo}{jusqu'à}
+    \SetKw{InThis}{dans}
+    \SetKw{LtoR}{{parcourue de gauche à droite}}
+    \SetKw{mLtoR}{{parcouru de gauche à droite}}
+    \SetKw{RtoL}{{parcourue de droite à gauche}}
+    \SetKw{mRtoL}{{parcouru de droite à gauche}}
+    
+% Block
+    \SetKwBlock{Actions}{Actions}{}
+    \SetKwBlock{Begin}{Début}{}
+    
+% Input
+    \SetKwInput{In}{Entrée}
+    \SetKwInput{Ins}{Entrées}
+    \SetKwInput{Out}{Sortie}
+    \SetKwInput{Outs}{Sorties}
+    \SetKwInput{Data}{Donnée}
+    \SetKwInput{Datas}{Données}
+    \SetKwInput{Result}{Résultat}
+    \SetKwInput{Results}{Résultats}
+    \SetKwInput{InState}{{État initial}}
+    \SetKwInput{InStates}{{États initiaux}}
+    \SetKwInput{OutState}{{État final}}
+    \SetKwInput{OutStates}{{États finaux}}
+    \SetKwInput{PreCond}{Précondition}
+    \SetKwInput{PreConds}{Préconditions}
+    \SetKwInput{PostCond}{Postcondition}
+    \SetKwInput{PostConds}{Postconditions}
+    
+% Word
+    \SetKw{Return}{Renvoyer}
+    \SetKw{Ask}{Demander}
+    \SetKw{Print}{Afficher}
+}
+        

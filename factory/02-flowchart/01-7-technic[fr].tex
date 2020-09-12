@@ -1,0 +1,88 @@
+\documentclass[12pt,a4paper]{article}
+
+\makeatletter
+	\input{../config/header[fr].sty}
+\makeatother
+
+
+\begin{document}
+
+%\section{Algorithmes en langage naturel}
+
+%\subsection{L'environnement \texttt{algo}}
+
+\subsection{Fiches techniques}
+
+\IDenv[n]{algochart}
+
+Cet environnement s'utilise avec les styles \verb#TikZ# suivants.
+
+\begin{enumerate}
+	\item \verb#acio# pour un noeud indiquant l'entrée ou la sortie de l'algorithme.
+
+	\item \verb#acinstr# pour un noeud indiquant une instruction.
+
+	\item \verb#acif# pour un noeud indiquant un test.
+
+	\smallskip
+
+	\item \verb#aclink# pour un chemin liant deux noeuds.
+
+	\smallskip
+
+	\item \verb#acbackloopleft# à utiliser avec \verb#to# pour une boucle de rétroaction par la gauche entre deux noeuds.
+	      Ce style peut recevoir l'argument optionnel \verb#x# permet d'indiquer le décalage vers la gauche.
+		  Par défaut \verb#x = 5em#.
+
+	\item \verb#acbackloopright# à utiliser avec \verb#to# pour une boucle de rétroaction par la droite entre deux noeuds.
+	      Ce style peut recevoir l'argument optionnel \verb#x# permet d'indiquer le décalage vers la droite.
+		  Par défaut \verb#x = 5em#.
+
+	\smallskip
+
+	\item \verb#aczigzag# à utiliser avec \verb#to# pour un chemin \fg cassé à un angle droit \fg.
+	      Ce style peut recevoir les arguments optionnels suivants.
+	      \begin{enumerate}
+	      		\item \verb#xstart# permet d'indiquer un décalage horizontal au début.
+			          Par défaut \verb#xstart = 0mm#.
+
+	      		\item \verb#x# permet d'indiquer un décalage horizontal à la fin.
+			          Par défaut \verb#x = 3mm#.
+
+	      		\item \verb#y# permet d'indiquer un décalage vertical à la fin.
+			          Par défaut \verb#y = 5mm#.
+	      \end{enumerate}
+\end{enumerate}
+
+
+% ---------------------- %
+
+
+\separation
+
+
+\IDmacro[a]{aclabelabove}{1}
+
+\IDmacro[a]{aclabelbelow}{1}
+
+\extraspace
+
+\IDmacro[a]{aclabelleft}{1}
+
+\IDmacro[a]{aclabelright}{1}
+
+
+\IDarg{} le texte au début du chemin.
+
+
+% ---------------------- %
+
+
+\separation
+
+
+\IDope{acusebw}      \hfill  \prefix{bw = b-lack \& w-hite}
+
+\IDope{acusecolor}
+
+\end{document}

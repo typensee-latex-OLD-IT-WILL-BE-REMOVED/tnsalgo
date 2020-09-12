@@ -1,0 +1,5 @@
+==========
+2020-09-12
+==========
+
+**First version version::``0.0.0-beta`` of ¨tnsalgo:** this package tries to simplify the writting of algorithms.

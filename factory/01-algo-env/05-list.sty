@@ -1,0 +1,145 @@
+% == PACKAGES USED == %
+
+\usepackage{xint}
+\usepackage{amsmath}
+
+
+% == DEFINITIONS == %
+
+% Source used : 
+%	* https://tex.stackexchange.com/a/26873/6880
+
+\ExplSyntaxOn
+
+\NewDocumentCommand{\instringTF}{mmmm}
+ {
+  \oleks_instring:nnnn { #1 } { #2 } { #3 } { #4 }
+ }
+
+\tl_new:N \l__oleks_instring_test_tl
+
+\cs_new_protected:Nn \oleks_instring:nnnn
+ {
+  \tl_set:Nn \l__oleks_instring_test_tl
+             { #1 }
+
+  \regex_match:nnTF { \u{l__oleks_instring_test_tl} } { #2 }
+                    { #3 }
+                    { #4 }
+ }
+
+\ExplSyntaxOff
+
+
+% Algo - Loops with lists
+
+\newcommand\ForInList[3]{
+	\For{$#1$ \InThis $#2$ \LtoR}{#3}
+}
+
+\newcommand\ForInListRev[3]{
+	\For{$#1$ \InThis $#2$ \RtoL}{#3}
+}
+
+
+% Algo - Additional semantic macros - Lists
+
+\newcommand\List[1]{\left[ \, #1 \, \right]}
+\newcommand\EmptyList{\List{}}
+
+\newcommand\ListElt[2]{#1\List{#2}}
+\newcommand\ListUntil[2]{#1\List{..\,#2}}
+\newcommand\ListFrom[2]{#1\List{#2\,..}}
+
+\DeclareMathOperator{\Len}{taille}
+\newcommand\POOpoint{\,\textbf{.}\,}
+
+
+\newcommand\AddList{\mathbin{\boxplus}}
+
+
+% Algo - Lists - Append and prepend
+
+\newcommand\Append{\@ifstar{\@Append@star}{\@Append@no@star}}
+
+\newcommand\@Append@no@star[2]{Ajouter le nouvel élément #2 après la fin de la liste #1.}
+
+\newcommand\@Append@star{\@ifstar{\@Append@star@star}{\@Append@single@star}}
+
+\newcommand\@Append@single@star[2]{$#1$\POOpoint{}ajouter-droite($#2$)}
+\newcommand\@Append@star@star[2]{$#1 \Store #1 \AddList \List{#2}$}
+
+
+\newcommand\Prepend{\@ifstar{\@Prepend@star}{\@Prepend@no@star}}
+
+\newcommand\@Prepend@no@star[2]{Ajouter le nouvel élément #2 avant le début de la liste #1.}
+
+\newcommand\@Prepend@star{\@ifstar{\@Prepend@star@star}{\@Prepend@single@star}}
+
+\newcommand\@Prepend@single@star[2]{$#1$\POOpoint{}ajouter-gauche($#2$)}
+
+\newcommand\@Prepend@star@star[2]{$#1 \Store \List{#2} \AddList #1$}
+
+
+% Algo - Lists - Pop at
+
+\newcommand\@add@one[2]{%
+		\if\relax\detokenize\expandafter{\romannumeral-0#1}\relax%
+			\the\numexpr #1+1 \relax%
+		\else%
+			#1 + 1%
+		\fi%
+}
+
+\newcommand\@list@until@minus@one[2]{%
+	\if\relax\detokenize\expandafter{\romannumeral-0#2}\relax%
+			\def\minusone{\the\numexpr #2-1 \relax}%
+			\xintiiifNotZero{\minusone}{%
+				 \ListUntil{#1}{\minusone} \AddList%
+			}{}%
+		\else%
+			\ListUntil{#1}{#2 - 1} \AddList%
+		\fi%
+}
+
+\def\@list@before@at@after#1{\@split@before@at@after#1\relax}
+\def\@split@before@at@after#1|#2|#3|#4\relax{%
+	\ListElt{#1}{#3} ,%
+	\ListUntil{#1}{#2}%
+	\AddList%
+	\ListFrom{#1}{#4}%
+}
+
+\newcommand\PopAt{\@ifstar{\@PopAt@star}{\@PopAt@no@star}}
+
+\newcommand\@PopAt@no@star[2]{Élément à la position #2 dans la liste #1, cet élément étant retiré de la liste.}
+
+\newcommand\@PopAt@star{\@ifstar{\@PopAt@star@star}{\@PopAt@single@star}}
+
+\newcommand\@PopAt@single@star[2]{$#1$\POOpoint{}extraire($#2$)}
+
+\newcommand\@PopAt@star@star[3]{%
+	$%
+		#1 , #2%
+		\MStore%
+		\instringTF{|}{#3}{%
+			\@list@before@at@after{#2|#3}%
+		}{%
+			\ListElt{L}{#3} ,%
+			\@list@until@minus@one{#2}{#3}%	
+			\ListFrom{#2}{\@add@one{#3}}%
+		}%
+	$%
+}
+
+
+
+
+
+
+
+% Algo - Lists - Keep
+
+\newcommand\KeepLR[3]{$#1 \Store \ListUntil{#1}{#2} \AddList \ListFrom{#1}{#3}$}
+\newcommand\KeepR[2]{$#1 \Store \ListFrom{#1}{#2}$}
+\newcommand\KeepL[2]{$#1 \Store \ListUntil{#1}{#2}$}

@@ -1,0 +1,1775 @@
+%\documentclass[12pt,a4paper]{scrartcl}
+\documentclass[12pt,a4paper]{article}
+
+\makeatletter % Technical doc - START
+
+\usepackage{tnsmath}  % ATTENTION !!!!
+
+% ---------------------- %
+% -- GENERAL SETTINGS -- %
+% ---------------------- %
+
+\usepackage[
+	top    = 2cm,
+	bottom = 2cm,
+	left   = 1.5cm,
+	right  = 1.5cm
+]{geometry}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{ucs}
+
+\usepackage[french]{babel,varioref}
+
+\usepackage{color}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks,
+    citecolor = black,
+    filecolor = black,
+    linkcolor = black,
+    urlcolor  = black
+}
+\usepackage[numbered]{bookmark}
+
+\usepackage{enumitem}
+\usepackage{multicol}
+\usepackage{longtable}
+\usepackage{makecell}
+
+\setlength{\parindent}{0cm}
+\setlist{noitemsep}
+
+
+
+% --------------- %
+% -- TOC & Co. -- %
+% --------------- %
+
+\usepackage[raggedright]{titlesec}
+
+%\renewcommand\thechapter{\Alph{chapter}.}
+\renewcommand\thesection{\Roman{section}.}
+\renewcommand\thesubsection{\arabic{subsection}.}
+\renewcommand\thesubsubsection{\roman{subsubsection}.}
+
+
+\titleformat{\paragraph}[hang]{\normalfont\normalsize\bfseries}{\theparagraph}{1em}{}
+\titlespacing*{\paragraph}{0pt}{3.25ex plus 1ex minus .2ex}{0.5em}
+
+
+% Source
+%    * https://tex.stackexchange.com/a/558025/6880
+\usepackage{tocbasic}[2020/07/22]% needs KOMA-Script version 3.31
+
+\DeclareTOCStyleEntries[
+    raggedentrytext,
+    linefill = \hfill,
+    indent   = 0pt,
+    dynindent,
+    numwidth = 0pt,
+    numsep   = 1ex,
+    dynnumwidth
+]{tocline}{
+	chapter,
+	section,
+	subsection,
+	subsubsection,
+	paragraph,
+	subparagraph
+}
+
+\DeclareTOCStyleEntry[indentfollows = chapter]{tocline}{section}
+
+
+
+% ----------- %
+% -- TOOLS -- %
+% ----------- %
+
+\usepackage{ifplatform}
+\usepackage{ifthen}
+\usepackage{macroenvsign}
+\usepackage{pgffor}
+
+
+
+% ------------------------- %
+% -- SPECIAL FORMATTINGS -- %
+% ------------------------- %
+
+\usepackage{amsthm}
+
+\usepackage{tcolorbox}
+
+
+% -- LISTINGS -- %
+
+%\tcbuselibrary{listingsutf8}
+\tcbuselibrary{minted, breakable}
+
+\newtcblisting{latexex}{%
+    breakable,%
+    sharp corners,%
+    left   = 1mm, right = 1mm,%
+    bottom = 1mm, top   = 1mm,%
+    %colupper = red!75!blue,%
+    listing side text
+}
+
+\newtcbinputlisting{\inputlatexex}[2][]{%
+    listing file={#2},%
+    breakable,
+    sharp corners,%
+    left   = 1mm, right = 1mm,%
+    bottom = 1mm, top   = 1mm,%
+    %colupper = red!75!blue,%
+    listing side text
+}
+
+
+\newtcblisting{latexex-flat}{%
+    breakable,
+    sharp corners,%
+    left   = 1mm, right = 1mm,%
+    bottom = 1mm, top   = 1mm,%
+    %colupper = red!75!blue,%
+}
+
+\newtcbinputlisting{\inputlatexexflat}[2][]{%
+    listing file={#2},%
+    breakable,
+    sharp corners,%
+    left   = 1mm, right = 1mm,%
+    bottom = 1mm, top   = 1mm,%
+    %colupper = red!75!blue,%
+}
+
+
+\newtcblisting{latexex-alone}{%
+    breakable,
+    sharp corners,%
+    left   = 1mm, right = 1mm,%
+    bottom = 1mm, top   = 1mm,%
+    %colupper = red!75!blue,%
+    listing only
+}
+
+\newtcbinputlisting{\inputlatexexalone}[2][]{%
+    listing file={#2},%
+    breakable,
+    sharp corners,%
+    left   = 1mm, right = 1mm,%
+    bottom = 1mm, top   = 1mm,%
+    %colupper = red!75!blue,%
+    listing only
+}
+
+
+\newcommand\inputlatexexcodeafter[1]{%
+    \begin{center}
+        \input{#1}
+    \end{center}
+
+    \vspace{-.5em}
+    
+    Le rendu précédent a été obtenu via le code suivant.
+    
+    \inputlatexexalone{#1}
+}
+
+
+\newcommand\inputlatexexcodebefore[1]{%
+    \inputlatexexalone{#1}
+    \vspace{-.75em}
+    \begin{center}
+        \textit{\footnotesize Rendu du code précédent}
+        
+        \medskip
+        
+        \input{#1}
+    \end{center}
+}
+
+
+% -- REMARK -- %
+
+\theoremstyle{definition}
+\newtheorem*{remark}{Remarque}
+
+
+% -- EXAMPLE -- %
+
+\newcounter{paraexample}[subsubsection]
+
+\newcommand\@newexample@abstract[2]{%
+    \paragraph{%
+        #1%
+        \if\relax\detokenize{#2}\relax\else {} -- #2\fi%
+    }%
+}
+
+\newcommand\newparaexample{\@ifstar{\@newparaexample@star}{\@newparaexample@no@star}}
+
+\newcommand\@newparaexample@no@star[1]{%
+    \refstepcounter{paraexample}%
+    \@newexample@abstract{Exemple \theparaexample}{#1}%
+}
+
+\newcommand\@newparaexample@star[1]{%
+    \@newexample@abstract{Exemple}{#1}%
+}
+
+
+% -- CHANGE LOG -- %
+
+\newcommand\topic{\@ifstar{\@topic@star}{\@topic@no@star}}
+
+\newcommand\@topic@no@star[1]{%
+    \textbf{\textsc{#1}.}%
+}
+
+\newcommand\@topic@star[1]{%
+    \textbf{\textsc{#1} :}%
+}
+
+
+% -- ABOUT MACROS & Co. -- %
+
+\newcommand\env[1]{\texttt{#1}}
+\newcommand\macro[1]{\env{\textbackslash{}#1}}
+
+\newcommand\separation{
+    \medskip
+    \hfill\rule{0.5\textwidth}{0.75pt}\hfill
+    \medskip
+}
+
+
+\newcommand\extraspace{
+    \vspace{0.25em}
+}
+
+
+\newcommand\whyprefix[2]{%
+    \textbf{\prefix{#1}}-#2%
+}
+
+\newcommand\mwhyprefix[2]{%
+    \texttt{#1 = #1-#2}%
+}
+
+\newcommand\prefix[1]{%
+    \texttt{#1}%
+}
+
+
+\newcommand\inenglish{\@ifstar{\@inenglish@star}{\@inenglish@no@star}}
+
+\newcommand\@inenglish@star[1]{%
+    \emph{\og #1 \fg}%
+}
+
+\newcommand\@inenglish@no@star[1]{%
+    \@inenglish@star{#1} en anglais%
+}
+
+
+\newcommand\ascii{\texttt{ASCII}}
+
+\makeatother % Technical doc - END
+
+
+\usepackage{ tnsalgo }
+
+
+\begin{document}
+
+\renewcommand\labelitemi{\raisebox{0.125em}{\tiny\textbullet}}
+\renewcommand{\labelitemii}{---}
+
+\title{   %
+	Le package \texttt{ tnsalgo }\\%
+	{\footnotesize Code source disponible sur \url{ https://github.com/typensee-latex/tnsalgo.git }.}\\%
+{\footnotesize Version \texttt{0.0.0-beta} développée et testée sur \macosxname{}.}%
+}
+\author{Christophe BAL}
+\date{2020-09-12}
+
+\maketitle
+
+
+\vspace{2em}
+
+\hrule
+
+\tableofcontents
+
+\vspace{1.5em}
+
+\hrule
+
+\newpage
+
+\section{Introduction}
+
+Le package \verb#tnsalgo# propose des outils facilitant la rédaction d'algorithmes en langage naturel et si besoin graphiquement via des ordinogrammes
+\footnote{
+	On parle aussi d'organigrammes.
+}.
+
+% tnscom used - START
+% tnscom used - END
+
+\begin{remark}
+	Pour faciliter la rédaction des exemples, cette documentation utilise le package \verb#tnsmath# disponible sur \url{https://github.com/typensee-latex/tnsmath.git}.
+\end{remark}
+\section{Noms des macros}
+
+%\subsection{Algorithmes en langage naturel}
+
+Pour les algorithmes en langage naturel, il est fait appel au package \verb#algorithm2e# qui utilise, et abuse
+\footnote{
+	Ce type de convention est un peu pénible lors de la saisie au clavier.
+},
+de la notation dite en bosses de dromadaire
+\footnote{
+	 On parle aussi de casse à la Pascal en référence au langage de programmation.
+}
+comme par exemple avec \macro{BlankLine} et \macro{ElseIf} au lieu de \macro{blankline} et \macro{elseif}.
+Par souci de cohérence les nouvelles macros ajoutées par \verb#tnsalgo# en lien avec les algorithmes utilisent aussi cette convention même si par exemple l'auteur aurait préféré proposer \macro{putin} et \macro{forrange} à la place de \macro{PutIn} et \macro{ForRange}.
+
+
+% ---------------------- %
+
+
+%\subsection{Ordinogrammes} Utile ? Si oui parler de tkz-tab ==> camelCase
+% List of packages - START
+\section{Packages utilisés}
+
+La roue ayant déjà été inventée, le package \verb#tnsalgo# utilise les packages suivants sans aucun scrupule.
+
+\begin{multicols}{4}
+    \begin{itemize}
+        \item \verb#algorithm2e#
+        \item \verb#mathtools#
+        \item \verb#simplekv#
+        \item \verb#tcolorbox#
+        \item \verb#tikz#
+        \item \verb#xint#
+    \end{itemize}
+\end{multicols}
+% List of packages - END
+\newpage
+
+\section{Algorithmes en langage naturel}
+
+\subsection{Comment taper les algorithmes avec \texttt{algorithm2e}}
+
+Le gros du travail est fait par le package \verb#algorithm2e# qui propose une syntaxe de saisie très simple.
+La mise en forme par défaut de \verb#algorithm2e# utilise des flottants, chose qui peut poser des problèmes pour de longs algorithmes ou, plus gênant, pour des algorithmes en bas de page.
+Dans \verb#tnsalgo# il a été fait le choix de ne pas utiliser de flottants avec un placement libre, un choix lié à l'utilisation faite de \verb#tnsalgo# par son auteur pour rédiger des cours de niveau lycée. 
+
+
+\medskip
+
+
+Voici ce qu'il est possible d'obtenir sans trop d'efforts avec tous les mots clés en français car c'est langue choisie avec \verb#babel#.
+
+
+\bigskip
+\input{examples/algo-natural-syracuse.extra.tex}
+\bigskip
+
+
+La rédaction d'un tel algorithme se fait facilement via un code proche de ce que pourrait proposer un langage classique de programmation tel que le \Verb#C# \emph{(nous donnons juste après le squelette de la syntaxe propre à \texttt{algorithm2e})}.
+Indiquons au passage que le titre s'indique via une option
+\footnote{
+	Avec \texttt{algorithm2e} le titre s'ajoute via la macro \macro{caption}.
+	Nous verrons que l'option proposée par \texttt{tnsalgo} autorise d'avoir sans difficulté un algorithme juste numéroté mais sans titre particulier.
+}
+et aussi que sont utilisées des macros additionnelles proposées par \verb#tnsalgo# ainsi que \macro{NN} et \macro{ZintervalC} fournies par \verb#tnsmath#.
+
+
+\inputlatexexalone{examples/algo-natural-syracuse.extra.tex}
+
+
+Le squelette du code précédent est le suivant. Ceci ressemble bien à du code \verb#C#. 
+
+
+\begin{latexex-alone}
+\caption{...}
+
+\Data{...}
+\Result{...}
+
+\Actions{
+    ...
+    \While{...}{
+        \uIf{...}{
+            ...
+        } \Else {
+            ...
+            \uIf{...}{
+                ...
+            } \Else {
+                ...
+            }
+            ...
+        }
+    }
+    \If{...}{
+        ...
+    }
+    \Return{...}
+}
+\end{latexex-alone}
+
+
+% ---------------------- %
+
+
+\subsection{Numérotation des algorithmes}
+
+Avant de continuer les présentations il faut savoir que tous les algorithmes sont numérotés globalement à l'ensemble du document. C'est plus simple et efficace pour une lecture sur papier.
+%\section{Algorithmes en language naturel}
+
+\subsection{L'environnement \texttt{algo}}
+
+\subsubsection{Cadre et largeur}
+
+L'option \verb#frame# de l'environnement \verb#algo# demande d'encadrer les algorithmes afin de les rendre plus visibles.
+Indiquons qu'ici sont utilisées les macros \macro{NNs} et \macro{dsum} fournies par le package \verb#tnsmath#.
+
+\inputlatexex{examples/algo-natural-stupid.extra.tex}
+
+
+L'environnement \verb#algo# propose l'option \verb#scale# pour indiquer la largeur relativement à celle de la ligne et une autre \verb#center# pour centrer l'algorithme qui permettent d'obtenir ce qui suit.
+
+\vspace{-1em}
+\inputlatexexcodeafter{examples/algo-natural-stupid-scaled-center.extra.tex}
+%\section{Algorithmes en langage naturel}
+
+%\subsection{L'environnement \texttt{algo}}
+
+\subsubsection{Un titre ou pas}
+
+\newparaexample{Algorithme numéroté (par défaut)}
+
+\inputlatexex{examples/algo-natural-title-empty.extra.tex}
+
+
+% ---------------------- %
+
+
+\newparaexample{Algorithme numéroté avec un titre}
+
+\inputlatexex{examples/algo-natural-title.extra.tex}
+
+
+% ---------------------- %
+
+
+\newparaexample{Aucun titre}
+
+\inputlatexex{examples/algo-natural-title-no.extra.tex}
+%\section{Algorithmes en langage naturel}
+
+%\subsection{L'environnement \texttt{algo}}
+%\section{Algorithmes en langage naturel}
+
+\subsection{Des macros pour structurer les algorithmes}
+
+\subsubsection{Entrée / Sortie}
+
+Ci-dessous sont données les versions au singulier de mots de type \og entrée / sortie \fg{}.
+Toutes les macros présentées ci-après ont une version au pluriel qui s'obtient en rajoutant un \prefix{s} à la fin du nom de la macro : par exemple le pluriel de \macro{In} s'obtient via \macro{Ins}.
+
+\inputlatexex{examples/keyword-io-in-out.extra.tex}
+
+\inputlatexex{examples/keyword-io-data-result.extra.tex}
+
+\inputlatexex{examples/keyword-io-instate-outstate.extra.tex}
+
+\inputlatexex{examples/keyword-io-precond-postcond.extra.tex}
+%\section{Algorithmes en langage naturel}
+
+%\subsection{Des macros pour structurer les algorithmes}
+
+\subsubsection{Bloc principal}
+
+\inputlatexex{examples/keyword-main-block.extra.tex}
+%\section{Algorithmes en langage naturel}
+
+%\subsection{Des macros pour structurer les algorithmes}
+
+\subsubsection{Boucles \txtWhile*}
+
+\inputlatexex{examples/keyword-loop-while.extra.tex}
+
+
+% ---------------------- %
+
+
+\subsubsection{Boucles \txtRepeat*}
+
+\inputlatexex{examples/keyword-loop-repeat.extra.tex}
+
+
+% ---------------------- %
+
+
+\subsubsection{Boucles \txtFor*}
+
+\newparaexample{Boucles généralistes}
+
+\inputlatexex{examples/keyword-loop-for.extra.tex}
+
+\inputlatexex{examples/keyword-loop-forall.extra.tex}
+
+\inputlatexex{examples/keyword-loop-foreach.extra.tex}
+
+
+% ---------------------- %
+
+
+\newparaexample{Boucles sur des entiers consécutifs}
+
+Les boucles présentées ci-dessous passent toutes leurs arguments en mode mathématique. 
+
+\inputlatexex{examples/keyword-loop-forrange-no-star.extra.tex}
+
+\inputlatexex{examples/keyword-loop-forrange-star.extra.tex}
+
+\inputlatexex{examples/keyword-loop-forrange-star-star.extra.tex}
+
+
+% ---------------------- %
+
+
+\newparaexample{Boucles spécifiques aux listes}
+
+Les boucles présentées ci-après passent elles aussi leurs arguments en mode mathématique. 
+
+\inputlatexex{examples/keyword-loop-forinlist.extra.tex}
+
+\inputlatexex{examples/keyword-loop-forinlist-rev.extra.tex}
+%\section{Algorithmes en langage naturel}
+
+%\subsection{Des macros pour structurer les algorithmes}
+
+\subsubsection{Disjonction conditionnelle \txtIf*}
+
+Ci-dessous le préfixe \prefix{u}, pour \whyprefix{u}{nclosed} soit \inenglish{non fermé}, demande de ne pas fermer horizontalement le bloc.
+
+\inputlatexex{examples/keyword-cond-ifelif.extra.tex}
+
+
+% ---------------------- %
+
+
+\subsubsection{Disjonction de cas via \txtSwitch*}
+
+\inputlatexex{examples/keyword-cond-switch.extra.tex}
+%\section{Algorithmes en langage naturel}
+
+%\subsection{Des macros pour structurer les algorithmes}
+
+\subsubsection{Citer les structures algorithmiques}
+
+Pour faciliter la rédaction de textes sur les algorithmes, des macros standardisent l'impression des noms des outils de structure. On peut ainsi parler de tests \txtIf\ , \txtIfElseIfElse\ et de boucles \txtWhile\, ou si l'on préfère de \txtIf*\ , \txtIfElseIfElse*\ et \txtWhile*{} avec une police de type True Type à chasse fixe.
+Ci-dessous, le préfixe \prefix{txt} est pour \prefix{text} eest la casse est celle des macros utilisables dans en algorithme.
+
+
+% == Text tools - START == %
+
+\begin{enumerate}
+
+    \item Liste des commandes de type \og algorithme \fg{}.
+
+    \begin{enumerate}[label=\alph*)]
+        \item \verb#\txtIf          # \,donne\, \txtIf.
+        \item \verb#\txtIfElse      # \,donne\, \txtIfElse.
+        \item \verb#\txtIfElseIf    # \,donne\, \txtIfElseIf.
+        \item \verb#\txtIfElseIfElse# \,donne\, \txtIfElseIfElse.
+        \item \verb#\txtSwitch      # \,donne\, \txtSwitch.
+    \smallskip
+        \item \verb#\txtFor         # \,donne\, \txtFor.
+        \item \verb#\txtWhile       # \,donne\, \txtWhile.
+        \item \verb#\txtRepeat      # \,donne\, \txtRepeat.
+    \end{enumerate}
+
+    \item Liste des commandes de type \og True Type \fg{}.
+
+    \begin{enumerate}[label=\alph*)]
+        \item \verb#\txtIf*          # \,donne\, \txtIf*.
+        \item \verb#\txtIfElse*      # \,donne\, \txtIfElse*.
+        \item \verb#\txtIfElseIf*    # \,donne\, \txtIfElseIf*.
+        \item \verb#\txtIfElseIfElse*# \,donne\, \txtIfElseIfElse*.
+        \item \verb#\txtSwitch*      # \,donne\, \txtSwitch*.
+    \smallskip
+        \item \verb#\txtFor*         # \,donne\, \txtFor*.
+        \item \verb#\txtWhile*       # \,donne\, \txtWhile*.
+        \item \verb#\txtRepeat*      # \,donne\, \txtRepeat*.
+    \end{enumerate}
+\end{enumerate}
+
+% == Text tools - END == %
+%\section{Algorithmes en langage naturel}
+
+%\subsection{Des macros pour structurer les algorithmes}
+%\section{Algorithmes en language naturel}
+
+\subsection{Affectations simples ou multiples}
+
+\subsubsection{Affectation simple avec une flèche}
+
+\begin{latexex}
+$x \Store 3$ ou
+$3 \PutIn x$
+\end{latexex}
+
+
+% ---------------------- %
+
+
+\subsubsection{Affectation simple avec un signe égal décoré}
+
+Deux notations alternatives existent
+\footnote{
+	La 2\ieme{} notation vient du langage B qui permet de spécifier et prouver des programmes.
+}.
+Voici comment les obtenir.
+
+\begin{latexex}
+$x \Store* 3$ ou
+$x \Store** 3$
+\end{latexex}
+
+
+% ---------------------- %
+
+
+\subsubsection{Affectations multiples en parallèle}
+
+\begin{latexex}
+$a, b, c \MStore x, y, z$ ou
+$x, y, z \MPutIn a, b, c$
+\end{latexex}
+
+
+\begin{remark}
+	La multi-affectation se faisant en parallèle, le résultat de $a, b, c \MStore 2, a + b, c - b$ ne sera pas semblable à celui de $a \Store 2$ suivi de $b \Store a + b$ puis de $c \Store c - b$ car dans le second cas les variables $a$ et $b$ évoluent avant de nouvelles affectations simples. En fait la multi-affectation précédente correspond aux actions suivantes.
+
+    \begin{algo}[
+    	frame,
+    	title = {Comment $a, b, c \MStore 2, a + b, c - b$ fonctionne-t-il ?}
+    ]
+    
+    	$a_{memo} \Store a$ ;
+    	$b_{memo} \Store b$ ;
+    	$c_{memo} \Store c$
+    	\\
+    	\BlankLine
+    	$a \Store 2$
+    	\\
+    	$b \Store a_{memo} + b_{memo}$
+    	\\
+    	$c \Store c_{memo} - b_{memo}$
+    \end{algo}
+\end{remark}
+
+
+% ---------------------- %
+%\section{Algorithmes en language naturel}
+
+\subsection{Intervalles discrets d'entiers}
+
+Il est d'usage en informatique théorique de poser $\CSinterval{4}{7} = \{ 4 ; 5 ; 6 ; 7 \}$ où \CSinterval{4}{7} a été obtenu en tapant \verb#\CSinterval{4}{7}#.
+Le préfixe \prefix{CS} fait référence à \prefix{Computer Science} soit \inenglish{Informatique Théorique}.
+
+
+% ---------------------- %
+%\section{Des outils pour les algorithmes} \label{algo-extra}
+
+\subsection{Listes}
+
+Avant de commencer il faut savoir que la convention retenue pour la numérotation des indices des listes est de commencer à $1$ \emph{(ceci est plus naturel pour un humain)}.
+
+
+\subsubsection{Opérations de base.}
+
+\newparaexample{Longueur d'une liste}
+
+\begin{latexex}
+$\Len(L)$
+\end{latexex}
+
+
+% ---------------------- %
+
+
+\newparaexample{Liste vide et liste en extension}
+
+\begin{latexex}
+$\EmptyList$
+
+$\List{4 ; 7 ; -1}$
+\end{latexex}
+
+
+% ---------------------- %
+
+
+\newparaexample{Extraire certains éléments}
+
+\begin{latexex}
+k\ieme{} élément :
+$\ListElt{L}{k}$
+
+Du 1\ier{} au k\ieme{} :
+$\ListUntil{L}{k}$
+
+À partir du k\ieme{} :
+$\ListFrom{L}{k}$
+\end{latexex}
+
+
+% ---------------------- %
+
+
+\newparaexample{Concaténer des listes}
+
+\begin{latexex}
+$L =          \ListUntil{L}{k-1}
+     \AddList \ListElt{L}{k}
+     \AddList \ListFrom{L}{k+1}$
+\end{latexex}
+
+
+% ---------------------- %
+
+
+\subsubsection{Modifier une liste avec un élément}
+
+\newparaexample{Versions textuelles}
+
+\prefix{append} et \prefix{prepend} signifient \inenglish*{ajouter} et \inenglish{préfixer}.
+Quant à \prefix{pop}, il signifie \inenglish*{éclater}.
+
+
+\begin{latexex}
+Ex.1 : \Append{L}{x}
+
+Ex.2 : \Prepend{L}{y}
+
+Ex.3 : \PopAt{L}{3}
+\end{latexex}
+
+
+% ---------------------- %
+
+
+\newparaexample{Versions POO}
+
+Voici des notations à la fois concises et aisées à comprendre
+\footnote{
+	L'opérateur point \POOpoint{} est défini dans la macro \texttt{\textbackslash{}POOpoint}. 
+	Ceci permet de personnaliser facilement cet opérateur.
+}
+avec une syntaxe de type POO
+\footnote{
+	\og POO \fg{} est l'acronyme de \og Programmation Orientée Objet \fg{}.
+}.
+
+
+\begin{latexex}
+Ex.1 : \Append*{L}{x}
+
+Ex.2 : \Prepend*{L}{y}
+
+Ex.3 : \PopAt*{L}{3}
+\end{latexex}
+
+
+% ---------------------- %
+
+
+\newparaexample{Versions symboliques}
+
+Pour finir il est possible d'utiliser des notations symboliques qui sont très efficaces lorsque l'on rédige les algorithmes à la main
+\footnote{
+	Rappelons que l'opérateur $\AddList$ est défini dans la macro \texttt{\textbackslash{}AddList}.
+}.
+Notez au passage qu'ici de petits calculs automatiques facilitent la rédaction et surtout que la macro \macro{PopAt**} prend un argument de plus que les macros \macro{PopAt} et \macro{PopAt*}, cet argument étant pour indiquer où stocker l'élément retiré de la liste.
+
+
+\begin{latexex}
+Ex.1 : \Append**{L}{x}
+
+Ex.2 : \Prepend**{L}{y}
+
+Ex.3 : \PopAt**{e}{L}{3}
+\end{latexex}
+
+
+\begin{remark}
+	Voici des points importants à connaître.
+	\begin{enumerate}
+		\item \verb#\PopAt**{e}{L}{1}# produit \PopAt**{e}{L}{1} sans écrire $\ListUntil{L}{0} \AddList \ListFrom{L}{2}$ puisque pour le package les indices des listes commencent toujours à $1$.
+
+		\smallskip
+		\item L'écriture symbolique \PopAt**{e}{L}{k} s'obtient tout simplement via \verb#\PopAt**{e}{L}{k}#.
+
+		\smallskip
+		\item Par contre \verb#\PopAt**{e}{L}{k-1}# aboutit à \PopAt**{e}{L}{k-1} ce qui n'est pas joli ! 
+	          Dans ce cas, taper \verb#\PopAt**{e}{L}{k-2 | k-1 | k}# aide la macro à produire \PopAt**{e}{L}{k-2 | k-1 | k}.
+	\end{enumerate}
+\end{remark}
+
+
+% ---------------------- %
+
+
+\subsubsection{Modifier une liste en extrayant des sous-listes}
+
+\newparaexample{}
+
+\macro{KeepLR} vient de \og keep left and right \fg{} soit \inenglish{garder à droite et à gauche}.
+
+\begin{latexex}
+\KeepLR{L}{a}{b}
+
+\end{latexex}
+
+
+% ---------------------- %
+
+
+\newparaexample{}
+
+\begin{latexex}
+\KeepL{L}{a}
+
+\KeepR{L}{b}
+\end{latexex}
+%\section{Algorithmes en langage naturel}
+
+%\subsection{Des macros pour structurer les algorithmes}
+%\section{Algorithmes en langage naturel}
+
+\subsection{Diverses commandes}
+
+Pour finir voici un ensemble de mots supplémentaires qui pourront vous rendre service. Le préfixe \verb+m+ permet d'utiliser des versions \og masculinisées \fg{} des textes proposés.
+
+\newparaexample{Opérateurs booléens}
+
+\begin{latexex}
+A \And B \Or C
+\end{latexex}
+
+
+% ---------------------- %
+
+
+\newparaexample{Interface}
+
+\begin{latexex}
+\Return RÉSULTAT
+
+\Ask "Quelque chose"
+
+\Print "Quelque chose"
+\end{latexex}
+
+
+% ---------------------- %
+
+
+\newparaexample{Itérations sur des entiers consécutifs}
+
+\begin{latexex}
+$k$ \From $1$ \To $n$
+
+$k$ \ComingFrom $1$ \GoingTo $n$
+\end{latexex}
+
+
+% ---------------------- %
+
+
+\newparaexample{Itération sur un ensemble}
+
+\begin{latexex}
+$e$ \InThis $\{ 1 , 4 , 16 \}$
+\end{latexex}
+
+
+% ---------------------- %
+
+
+\newparaexample{Itération sur une liste}
+
+\prefix{LtoR} est pour \og Left to Right \fg{} soit \inenglish{de droite à gauche}, et \prefix{RtoL} est pour \og Right to Left \fg{}.
+
+
+\begin{latexex}
+$L$ \LtoR
+
+$L$ \mLtoR
+
+$L$ \RtoL
+
+$L$ \mRtoL
+\end{latexex}
+%\section{Algorithmes en langage naturel}
+\newpage
+\section{Ordinogrammes}
+
+\subsection{C'est quoi un ordinogramme} \label{tnsalgo-flowchart-firstexa}
+
+Les ordinogrammes
+\footnote{
+    Le mot \og ordinogramme \fg{} vient des mots \og ordinateur \fg{}, du latin \og ordinare \fg{} soit \og mettre en ordre \fg{}, et du grec ancien \og gramma \fg{} soit \og lettre, écriture \fg{}.
+}
+sont des diagrammes que l'on peut utiliser pour expliquer des algorithmes très simples
+\footnote{
+    Cet outil pédagogique montre très vite ses limites. Essayez par exemple de tracer un ordinogramme pour expliquer comment résoudre une équation du 2\ieme{} degré.
+}.
+
+\medskip
+
+
+Voici un exemple expliquant comment résoudre dans $\RR$ l'équation en $x$ $a x^2 + b = 0$ lorsque $a \neq 0$ et $b \neq 0$ : le code utilisé est donné plus tard dans la section \ref{tnsalgo-flowchart-firstexa-code} \emph{(ce code sera très aisé à comprendre une fois lues les sections à venir)}.
+
+\begin{center}
+    \small
+    \input{examples/ac-merly-2nd-degree.tkz}
+\end{center}
+%\section{Ordinogrammes}
+
+\subsection{L'environnement \texttt{algochart}}
+
+Tous les codes seront placés dans l'environnement \verb+algochart+ qui pour le moment est juste un alias de l'environnement \verb+tikzpicture+ proposé par \verb+TikZ+ qui fait le principal du travail
+\footnote{
+	\texttt{algochart} vient de la contraction de \og algorithmic \fg{} et \og flowchart \fg{} soit \og algotithmique \fg{} et \og diagramme \fg{} en anglais.
+}.
+\verb#tnsalgo# définit juste quelques styles et quelques macros pour faciliter la saisie des ordinogrammes afin de travailler efficacement avec les macros \macro{node} et \macro{path} proposées par \verb#TikZ#.
+%\section{Ordinogrammes}
+
+\subsection{Convention pour les noms des styles et des macros}
+
+Toutes les fonctionnalités proposées par \verb#tnsalgo# seront nommées en minuscule en utilisant toujours le préfixe \prefix{ac} pour \whyprefix{a}{lgorithmic} \whyprefix{c}{hart} soit \inenglish{diagramme algorithmique}.
+%\section{Ordinogrammes}
+
+\subsection{Les styles proposés}
+
+À la norme officielle, nous avons préféré un style plus percutant où les formes des cadres sont bien différenciées.
+
+
+% -------------- %
+
+
+\subsubsection{Entrée et sortie}
+
+L'entrée et la sortie de l'algorithme sont représentés par des ovales comme dans l'exemple ci-après. Par convention, l'entrée se situe tout en haut de l'ordinogramme, et la sortie tout en bas.
+Indiquons que \verb+io+ dans \verb+acio+ fait référence à \og input / output \fg{} soit \og entrée / sortie \fg{} en anglais.
+
+\inputlatexex{examples/ac-showcase-io.tkz}
+
+
+Dans le code ci-dessus, nous utilisons le style \verb+acio+ en l'indiquant entre des crochets.
+La machinerie \verb#TikZ# permet de changer localement un réglage comme ci-après où l'on modifie la largeur de l'ellipse pour n'avoir qu'une seule ligne de texte.
+
+\inputlatexex{examples/ac-showcase-io-flatten.tkz}
+
+
+% -------------- %
+
+
+\subsubsection{Les instructions}
+
+Dans l'exemple suivant, qui ne nécessite aucun commentaire
+\footnote{
+	Chercher l'erreur\dots
+},
+nous avons dû régler à la main la largeur du cadre pour ne pas avoir un retour à la ligne.
+
+
+\inputlatexex{examples/ac-showcase-instruction.tkz}
+
+
+% -------------- %
+
+
+\subsubsection{Les tests conditionnels via un exemple complet}
+
+Nous allons voir comment obtenir le résultat suivant qui contient une structure conditionnelle. Nous allons en profiter pour expliquer comment placer les noeuds les uns par rapport aux autres, et aussi voir comment ajouter des connexions via la macro \verb+\path+ proposée par \verb#TikZ#.
+
+
+\begin{center}
+    \small
+    \input{examples/ac-if-absolute.tkz}
+\end{center}
+
+
+Voici le code utilisé pour obtenir l'ordinogramme ci-dessus.
+
+\medskip
+
+\inputlatexexalone{examples/ac-if-absolute.tkz}
+
+
+Donnons des explications sur les points délicats du code précédent.
+
+\begin{enumerate}
+	\item \verb+\node[acio] (input) {$n \in \NN$}+
+	      
+	      \smallskip
+	      Ici on définit \verb+input+ comme alias du noeud via \verb+(input)+, un alias utilisable ensuite pour différentes actions graphiques. 
+
+	\medskip
+	\item \verb+\node[acif, below of = input] (is-neg) {$n < 0$ ?}+
+
+	      \smallskip
+	      Ici on demande de placer le noeud nommé \verb+is-neg+ sous celui nommé \verb+input+ via \verb+below of = input+ où \og below of \fg{} se traduit par \inenglish{en dessous de}.
+	      Attention au signe égal dans \verb+below of = input+.
+	
+	\medskip
+	\item \verb|\node[acinstr, right] at ($(is-neg) + (2.5,0)$) (neg) {$res \Store (-n)$}|
+	      
+	      \smallskip
+	      Dans cette commande un peu plus mystique, l'emploi de \verb+right+ indique de se placer à droite du dernier noeud.
+	      Vient ensuite la cabalistique instruction \verb|at ($(is-neg) + (2.5,0)$)|.
+	      Comme \og at \fg{} signifie \inenglish{à (tel endroit)}, on comprend que l'on demande de placer le noeud à une certaine position.
+	       Il faut alors savoir que pour \verb#TikZ# l'usage de \verb|($...$)| indique de faire un calcul qui ici est celui d'addition de coordonnées cartésiennes via \verb|(is-neg) + (2.5,0)|. 
+	
+	\medskip
+	\item \verb+\path[aclink] (input) -- (is-neg)+
+	      
+	      \smallskip
+	      Cette instruction plus simple demande de tracer, avec le style \verb+aclink+, un trait entre les noeuds \verb+input+ et \verb+is-neg+.
+	
+	\medskip
+	\item \verb+\path[aclink] (is-neg) -- (neg) \aclabelabove{oui}+
+	      
+	      \smallskip
+	      La nouveauté ici est l'utilisation de la macro \verb+\aclabelabove{oui}+ proposée par \verb#tnsalgo# pour placer du texte au début et au dessus de la connexion.
+	      Rappelons que \og above \fg{} signifie \inenglish{au-dessus}. 
+
+	\medskip
+	\item \verb+\path[aclink] (neg) to[aczigzag] (output);+
+	      
+	      \smallskip
+	      Cette instruction permet d'obtenir \og l'orthopolyligne \fg{} 
+	      \footnote{
+	          Un néologisme ?
+	      }
+	      de \fbox{$res \Store (-n)$} vers \fbox{$res\vphantom{(-n)}$} .
+	      Vous pouvez utiliser \verb+to[aczigzag = {xstart = ... , x = ... , y = ....}]+ pour des réglages personnalisés.
+	      Par défaut les clés optionnelles suivent le réglage \verb+xstart = 0mm+ , un décalage au début de la connexion , \verb+x = 3mm+ , un décalage à la fin de la connexion, et \verb+y = 5mm+, un autre décalage à la fin de la connexion.
+\end{enumerate}
+
+
+% -------------- %
+
+
+\subsubsection{Les boucles}
+
+L'exemple très farfelu qui suit montre comment dessiner une petite boucle en faisant ressortir les instructions liées au fonctionnement de la boucle \emph{(cet effet est impossible à obtenir en mode noir et blanc : voir la section \ref{tnsalgo-bw-mode} à ce sujet)}.
+On voit au passage la limite d'utilisabilité des ordinogrammes car ces derniers ne proposent pas de mise en forme efficace pour les boucles.
+
+
+\begin{center}
+    \small
+    \input{examples/ac-strange-loop.tkz}
+\end{center}
+
+
+Voici le code que nous avons utilisé. Les seules vraies nouveautés sont l'utilisation du style \verb+acifinstr+ pour mieux visualiser les instructions liées à la boucle, et l'usage de \verb+to[acbackloopleft]+ pour la connexion en retour arrière par la gauche.
+Vous pouvez utiliser \verb+to[acbackloopleft = {x = ... }]+  pour régler le décalage vers la gauche.
+Par défaut, \verb+x = 5em+.
+De façon analogue, on peut utiliser \verb+to[acbackloopright]+ pour un retour arrière par la droite. 
+
+\medskip
+
+\inputlatexexalone{examples/ac-strange-loop.tkz}
+%\section{Ordinogrammes}
+
+\subsection{Passer de la couleur au noir et blanc, et vice versa} \label{tnsalgo-bw-mode}
+
+Pour l'impression papier, n'avoir que du noir et blanc peut rende service. Les commandes \verb+\acusebw+ et \verb+\acusecolor+ permettent d'avoir du noir et blanc ou de la couleur pour tous les ordinogrammes qui suivent l'utilisation de ces macros.
+
+\inputlatexex{examples/ac-showcase-color-fromto-bw.tkz}
+%\section{Ordinogrammes}
+
+\subsection{Code du tout premier exemple} \label{tnsalgo-flowchart-firstexa-code}
+
+Nous (re)donnons la version noir et blanc de l'ordinogramme présenté au début de la section \ref{tnsalgo-flowchart-firstexa}.
+
+\acusebw
+\begin{center}
+    \small
+    \input{examples/ac-merly-2nd-degree.tkz}
+\end{center}
+\acusecolor
+
+Ce diagramme s'obtient via le code suivant.
+
+\inputlatexexalone{examples/ac-merly-2nd-degree.tkz}
+%\section{Algorithmes en langage naturel}
+
+%\subsection{L'environnement \texttt{algo}}
+\newpage
+
+\section{Historique}
+
+Nous ne donnons ici qu'un très bref historique récent
+\footnote{
+	On ne va pas au-delà de un an depuis la dernière version.
+}
+de \verb+tnsalgo+ à destination de l'utilisateur principalement.
+Tous les changements sont disponibles uniquement en anglais dans le dossier \verb+change-log+ : voir le code source de \verb+tnsalgo+ sur \verb+github+.
+
+\begin{description}
+% Changes shown - START
+
+    \medskip
+    \item[2020-09-12] Première version \verb+0.0.0-beta+.
+
+% ------------------------ %
+
+% Changes shown - END 
+\end{description}
+
+
+\newpage
+\section{Toutes les fiches techniques} \label{techincal-ids}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\subsection{Algorithmes en langage naturel}
+
+\subsubsection{L'environnement \texttt{algo}}
+
+
+
+\IDenv[o]{algo}{1}
+
+\IDoption{} on utilise un système clé/valeur.
+\begin{enumerate}
+	\item \verb#notitle# permet de ne pas avoir de titre.
+	      Par défaut \verb#notitle = false#.
+
+	\item \verb#title# est le titre complémentaire.
+	      Par défaut \verb#title = {}#.
+
+	\item \verb#frame# demande d'ajouter un cadre.
+
+	\item \verb#center# sert à centrer le contenu.
+
+	\item \verb#scale# donne le coefficient multiplicateur à appliquer à la largeur de la ligne.
+	      Par défaut \verb#scale = 1#.
+\end{enumerate}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\subsubsection{Des macros pour structurer les algorithmes}
+
+
+
+\IDmacro[a]{In       }{1}
+
+\IDmacro[a]{Ins      }{1}
+
+\IDmacro[a]{Out      }{1}
+
+\IDmacro[a]{Outs     }{1}
+
+\extraspace
+
+\IDmacro[a]{Data     }{1}
+
+\IDmacro[a]{Datas    }{1}
+
+\IDmacro[a]{Result   }{1}
+
+\IDmacro[a]{Results  }{1}
+
+\extraspace
+
+\IDmacro[a]{InState  }{1}
+
+\IDmacro[a]{InStates }{1}
+
+\IDmacro[a]{OutState }{1}
+
+\IDmacro[a]{OutStates}{1}
+
+\extraspace
+
+\IDmacro[a]{PreCond  }{1}
+
+\IDmacro[a]{PreConds }{1}
+
+\IDmacro[a]{PostCond }{1}
+
+\IDmacro[a]{PostConds}{1}
+
+
+\IDarg{} du texte décrivant une ou des entrées, une ou des sorties, ...
+
+
+% ---------------------- %
+
+
+\separation
+
+
+\IDmacro[a]{Actions}{1}
+
+\IDmacro[a]{Begin  }{1}
+
+
+\IDarg{} le bloc des instructions via la syntaxe proposée par \verb#algorithm2e#.
+
+
+% ---------------------- %
+
+
+\separation
+
+
+\IDmacro[a]{ForAll }{2}
+
+\IDmacro[a]{ForEach}{2}
+
+
+\IDarg{1} les éléments à boucler.
+
+\IDarg{2} le bloc des instructions via la syntaxe proposée par \verb#algorithm2e#.
+
+
+% ---------------------- %
+
+
+\separation
+
+
+\IDmacro[a]{ForRange  }{4}
+
+\IDmacro[a]{ForRange* }{4}
+
+\IDmacro[a]{ForRange**}{4}
+
+
+\IDarg{1} la variable de la boucle.
+
+\IDarg{2} la 1\ier{} valeur entière.
+
+\IDarg{3} la dernière valeur entière.
+
+\IDarg{4} le bloc des instructions via la syntaxe proposée par \verb#algorithm2e#.
+
+
+% ---------------------- %
+
+
+\separation
+
+
+\IDmacro[a]{ForInList   }{3}
+
+\IDmacro[a]{ForInListRev}{3}
+
+
+\IDarg{1} la variable de la boucle.
+
+\IDarg{2} la liste.
+
+\IDarg{3} le bloc des instructions via la syntaxe proposée par \verb#algorithm2e#.
+
+
+% ---------------------- %
+
+
+\separation
+
+
+\IDmacro[a]{ForInList   }{3}
+
+\IDmacro[a]{ForInListRev}{3}
+
+
+\IDarg{1} la variable de la boucle.
+
+\IDarg{2} la liste.
+
+\IDarg{3} le bloc des instructions via la syntaxe proposée par \verb#algorithm2e#.
+
+
+% ---------------------- %
+
+
+\separation
+
+
+\IDope{txtIf}
+
+\IDope{txtIf*}
+
+\extraspace
+
+\IDope{txtIfElse}
+
+\IDope{txtIfElse*}
+
+\extraspace
+
+\IDope{txtIfElseIf}
+
+\IDope{txtIfElseIf*}
+
+\extraspace
+
+\IDope{txtIfElseIfElse}
+
+\IDope{txtIfElseIfElse*}
+
+\extraspace
+
+\IDope{txtSwitch}
+
+\IDope{txtSwitch*}
+
+
+% ---------------------- %
+
+
+\separation
+
+
+\IDope{txtFor}
+
+\IDope{txtFor*}
+
+\extraspace
+
+\IDope{txtWhile}
+
+\IDope{txtWhile*}
+
+\extraspace
+
+\IDope{txtRepeat}
+
+\IDope{txtRepeat*}
+
+
+\subsubsection{Affectations simples ou multiples}
+
+
+
+\IDope{Store  }
+
+\IDope{Store* }
+
+\IDope{Store**}
+
+\extraspace
+
+\IDope{PutIn }
+
+\extraspace
+
+\IDope{MStore}
+
+\IDope{MPutIn}
+
+
+\subsubsection{Intervalles discrets d'entiers}
+
+
+
+\IDmacro[a]{CSinterval}{2}   \hfill \prefix{CS = C-omputer S-cience}
+
+\IDarg{1} la borne entière inférieure.
+
+\IDarg{2} la borne entière supérieure.
+
+
+
+
+
+\subsubsection{Listes}
+
+
+
+\IDope{Len}
+
+
+% ---------------------- %
+
+
+\separation
+
+
+\IDope{EmptyList}
+
+
+% ---------------------- %
+
+
+\separation
+
+
+\IDmacro[a]{List}{1}
+
+\IDarg{} le contenu explicite de la liste.
+
+
+% ---------------------- %
+
+
+\separation
+
+
+\IDmacro[a]{ListElt}{2}
+
+\IDarg{1} le nom de la liste.
+
+\IDarg{2} le rang de l'élément à lire.
+
+
+% ---------------------- %
+
+
+\separation
+
+
+\IDmacro[a]{ListUntil}{2}
+
+\IDarg{1} le nom de la liste.
+
+\IDarg{2} le rang du dernier élément de la sous-liste extraite.
+
+
+% ---------------------- %
+
+
+\separation
+
+
+\IDmacro[a]{ListFrom}{2}
+
+\IDarg{1} le nom de la liste.
+
+\IDarg{2} le rang du premier élément de la sous-liste extraite.
+
+
+% ---------------------- %
+
+
+\separation
+
+
+\IDmacro[a]{Append  }{2}
+
+\IDmacro[a]{Append* }{2}
+
+\IDmacro[a]{Append**}{2}
+
+\IDarg{1} le nom de la liste.
+
+\IDarg{2} élément à ajouter après la fin de la liste.
+
+
+% ---------------------- %
+
+
+\separation
+
+
+\IDmacro[a]{Prepend  }{2}
+
+\IDmacro[a]{Prepend* }{2}
+
+\IDmacro[a]{Prepend**}{2}
+
+\IDarg{1} le nom de la liste.
+
+\IDarg{2} élément à ajouter avant le début de la liste.
+
+
+% ---------------------- %
+
+
+\separation
+
+
+\IDmacro[a]{PopAt }{2}
+
+\IDmacro[a]{PopAt*}{2}
+
+\IDarg{1} le nom de la liste.
+
+\IDarg{2} indice de l'élément à retirer.
+
+
+% ---------------------- %
+
+
+\separation
+
+
+\IDmacro[a]{PopAt**}{3}
+
+\IDarg{1} variable où stocker l'élément retiré.
+
+\IDarg{2} le nom de la liste.
+
+\IDarg{3} indice de l'élément à retirer.
+
+
+% ---------------------- %
+
+
+\separation
+
+
+\IDmacro[a]{KeepLR}{3}
+
+\IDarg{1} le nom de la liste.
+
+\IDarg{2} indice où commencer l'extraction.
+
+\IDarg{3} indice où finir l'extraction.
+
+
+% ---------------------- %
+
+
+\separation
+
+
+\IDmacro[a]{KeepL}{2}
+
+\IDarg{1} le nom de la liste.
+
+\IDarg{2} indice où finir l'extraction.
+
+
+% ---------------------- %
+
+
+\separation
+
+
+\IDmacro[a]{KeepR}{2}
+
+\IDarg{1} le nom de la liste.
+
+\IDarg{2} indice où commencer l'extraction.
+
+
+
+
+
+\subsubsection{Diverses commandes}
+
+
+
+\IDope{And}
+
+\IDope{Or}
+
+
+% ---------------------- %
+
+
+\separation
+
+
+\IDope{Ask}
+
+\IDope{Print}
+
+\IDope{Return}
+
+
+% ---------------------- %
+
+
+\separation
+
+
+\IDope{From}
+
+\IDope{To}
+
+\extraspace
+
+\IDope{ComingFro}
+
+\IDope{GoingTo}
+
+
+% ---------------------- %
+
+
+\separation
+
+
+\IDope{InThis}
+
+
+% ---------------------- %
+
+
+\separation
+
+
+\IDope{LtoR}    \hfill \prefix{LtoR = L-eft to R-ight}
+
+\IDope{mLtoR}   \hfill \mwhyprefix{m}{asculine}
+
+\extraspace
+
+\IDope{RtoL}    \hfill \prefix{LtoR = R-ight to L-eft}
+
+\IDope{mRtoL}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\subsection{Ordinogrammes}
+
+\subsubsection{Code du tout premier exemple} 
+
+
+
+\IDenv[n]{algochart}
+
+Cet environnement s'utilise avec les styles \verb#TikZ# suivants.
+
+\begin{enumerate}
+	\item \verb#acio# pour un noeud indiquant l'entrée ou la sortie de l'algorithme.
+
+	\item \verb#acinstr# pour un noeud indiquant une instruction.
+
+	\item \verb#acif# pour un noeud indiquant un test.
+
+	\smallskip
+
+	\item \verb#aclink# pour un chemin liant deux noeuds.
+
+	\smallskip
+
+	\item \verb#acbackloopleft# à utiliser avec \verb#to# pour une boucle de rétroaction par la gauche entre deux noeuds.
+	      Ce style peut recevoir l'argument optionnel \verb#x# permet d'indiquer le décalage vers la gauche.
+		  Par défaut \verb#x = 5em#.
+
+	\item \verb#acbackloopright# à utiliser avec \verb#to# pour une boucle de rétroaction par la droite entre deux noeuds.
+	      Ce style peut recevoir l'argument optionnel \verb#x# permet d'indiquer le décalage vers la droite.
+		  Par défaut \verb#x = 5em#.
+
+	\smallskip
+
+	\item \verb#aczigzag# à utiliser avec \verb#to# pour un chemin \fg cassé à un angle droit \fg.
+	      Ce style peut recevoir les arguments optionnels suivants.
+	      \begin{enumerate}
+	      		\item \verb#xstart# permet d'indiquer un décalage horizontal au début.
+			          Par défaut \verb#xstart = 0mm#.
+
+	      		\item \verb#x# permet d'indiquer un décalage horizontal à la fin.
+			          Par défaut \verb#x = 3mm#.
+
+	      		\item \verb#y# permet d'indiquer un décalage vertical à la fin.
+			          Par défaut \verb#y = 5mm#.
+	      \end{enumerate}
+\end{enumerate}
+
+
+% ---------------------- %
+
+
+\separation
+
+
+\IDmacro[a]{aclabelabove}{1}
+
+\IDmacro[a]{aclabelbelow}{1}
+
+\extraspace
+
+\IDmacro[a]{aclabelleft}{1}
+
+\IDmacro[a]{aclabelright}{1}
+
+
+\IDarg{} le texte au début du chemin.
+
+
+% ---------------------- %
+
+
+\separation
+
+
+\IDope{acusebw}      \hfill  \prefix{bw = b-lack \& w-hite}
+
+\IDope{acusecolor}
+
+
+
+
+\end{document}

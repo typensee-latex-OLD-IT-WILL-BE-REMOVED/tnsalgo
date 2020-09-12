@@ -1,0 +1,12 @@
+word::
+    From = de
+    To   = à
+
+    ComingFrom = allant de
+    GoingTo    = jusqu'à
+
+    InThis = dans
+    LtoR   = parcourue de gauche à droite
+    mLtoR  = parcouru de gauche à droite
+    RtoL   = parcourue de droite à gauche
+    mRtoL  = parcouru de droite à gauche

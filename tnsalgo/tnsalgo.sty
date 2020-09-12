@@ -1,0 +1,439 @@
+% ---------------------- %
+% -- IMPORTS REQUIRED -- %
+% ---------------------- %
+
+% A
+\PassOptionsToPackage{vlined}{algorithm2e}
+\PassOptionsToPackage{french}{algorithm2e}
+\RequirePackage{algorithm2e}
+% M
+\RequirePackage{mathtools}
+% S
+\RequirePackage{simplekv}
+% T
+\RequirePackage{tcolorbox}
+\RequirePackage{tikz}
+% X
+\RequirePackage{xint}
+
+
+% -------------- %
+% -- KEYWORDS -- %
+% -------------- %
+
+\SetKwComment{Comment}{{\# }}{}
+
+\input{translate/tnsalgo_EN.sty}
+\input{translate/tnsalgo_FR.sty}
+
+\@ifpackagewith{babel}{french}{
+   \uselangFR{}
+}{
+   \uselangEN{}
+}
+
+
+% -------------- %
+% -- ALGO ENV -- %
+% -------------- %
+
+% -- ENVIRONMENT -- %
+
+\setKVdefault[tnspalgo@algo@env@keys]{%
+    frame   = false,
+    center  = false,
+    notitle = false,
+    title   = {},
+    scale   = 1
+}
+
+
+\newenvironment{algo}[1][]{
+    \useKVdefault[tnspalgo@algo@env@keys]%
+    \setKV[tnspalgo@algo@env@keys]{#1}%
+    \edef\thisscale{\useKV[tnspalgo@algo@env@keys]{scale}}%
+    \edef\thistitle{\useKV[tnspalgo@algo@env@keys]{title}}%
+    %
+    \ifboolKV[tnspalgo@algo@env@keys]{center}{\centering}{}
+    %
+    \ifboolKV[tnspalgo@algo@env@keys]{frame}{%
+    	\begin{tcolorbox}[
+    		colback = white,
+    		width   = \thisscale\linewidth,
+    		breakable
+    	]
+			\vspace{-0.25em}
+	}{}
+			\begin{algorithm}[H]
+	% Title ?
+	\ifboolKV[tnspalgo@algo@env@keys]{notitle}{}{
+	% Empty tile
+    	\if\relax\thistitle\relax
+    		\tnspalgo@void@caption{}
+	% None empty tile
+    	\else
+    		\caption{\thistitle}
+    	\fi
+	}
+}{
+			\end{algorithm}
+	%
+    \ifboolKV[tnspalgo@algo@env@keys]{frame}{%
+			\vspace{-0.5em}
+		\end{tcolorbox}
+	}{}
+}
+
+
+
+% -- CAPTIONS -- %
+
+% Source
+%	* https://tex.stackovernet.com/fr/q/66875#214011
+%	* https://tex.stackexchange.com/a/510498/6880
+
+\renewcommand{\@algocf@capt@plain}{above}
+\renewcommand{\algocf@caption@plain}{\box\algocf@capbox\vskip\AlCapSkip}%
+
+\setlength{\AlCapSkip}{.1em}
+
+
+\newcommand\tnspalgo@void@caption{
+	\SetAlgoCaptionSeparator{}	% No separator (default colon)
+	\SetAlCapNameSty{}			% No caption text
+	\caption{}
+}
+
+
+% -------------------- %
+% -- ALGO STRUCTURE -- %
+% -------------------- %
+
+% -- FOR-RANGE LOOP -- %
+
+\newcommand\ForRange{\@ifstar{\@ForRange@pre@star}{\@ForRange@no@star}}
+\newcommand\@ForRange@pre@star{\@ifstar{\@ForRange@star@star}{\@ForRange@star}}
+
+\newcommand\@ForRange@no@star[4]{
+	\For{\text{$#1$} \ComingFrom \text{$#2$} \GoingTo \text{$#3$}}{#4}
+}
+
+\newcommand\@ForRange@star[4]{
+	\For{\text{$#1$} \From \text{$#2$} \To \text{$#3$}}{#4}
+}
+
+\newcommand\@ForRange@star@star[4]{
+	\For{$#1 \in \CSinterval{#2}{#3}$}{#4}
+}
+
+
+% ----------------- %
+% -- AFFECTATION -- %
+% ----------------- %
+
+% Source: https://tex.stackexchange.com/a/510011/6880
+
+\newcommand\PutIn{\rightarrow}
+\newcommand\MPutIn{\rightrightarrows}
+
+\newcommand\MStore{\leftleftarrows}
+
+
+\newcommand{\tnsalgo@special@hat}[2]{%
+    \begingroup
+        \sbox\z@{$\m@th#1=$}%
+        \ooalign{%
+            \hidewidth\raisebox{-0.3\ht\z@}{$\m@th#1\widehat{}$}\hidewidth\cr
+            \box\z@\cr
+        }%
+    \endgroup
+}
+
+\newcommand\Store{\@ifstar{\@Store@pre@star}{\@Store@no@star}}
+\newcommand\@Store@pre@star{\@ifstar{\@Store@star@star}{\@Store@star}}
+
+\newcommand\@Store@no@star{\leftarrow}
+\newcommand\@Store@star{\mathrel{\mathpalette\tnsalgo@special@hat\relax}}
+\newcommand\@Store@star@star{\triangleq}
+
+
+% -------------- %
+% -- INTERVAL -- %
+% -------------- %
+
+\newcommand\CSinterval[2]{\ensuremath{#1\,.\mkern0.2mu.\,#2}}
+
+
+% ---------- %
+% -- LIST -- %
+% ---------- %
+
+% Source used : 
+%	* https://tex.stackexchange.com/a/26873/6880
+
+\ExplSyntaxOn
+
+\NewDocumentCommand{\instringTF}{mmmm}
+ {
+  \oleks_instring:nnnn { #1 } { #2 } { #3 } { #4 }
+ }
+
+\tl_new:N \l__oleks_instring_test_tl
+
+\cs_new_protected:Nn \oleks_instring:nnnn
+ {
+  \tl_set:Nn \l__oleks_instring_test_tl
+             { #1 }
+
+  \regex_match:nnTF { \u{l__oleks_instring_test_tl} } { #2 }
+                    { #3 }
+                    { #4 }
+ }
+
+\ExplSyntaxOff
+
+
+% Algo - Loops with lists
+
+\newcommand\ForInList[3]{
+	\For{$#1$ \InThis $#2$ \LtoR}{#3}
+}
+
+\newcommand\ForInListRev[3]{
+	\For{$#1$ \InThis $#2$ \RtoL}{#3}
+}
+
+
+% Algo - Additional semantic macros - Lists
+
+\newcommand\List[1]{\left[ \, #1 \, \right]}
+\newcommand\EmptyList{\List{}}
+
+\newcommand\ListElt[2]{#1\List{#2}}
+\newcommand\ListUntil[2]{#1\List{..\,#2}}
+\newcommand\ListFrom[2]{#1\List{#2\,..}}
+
+\DeclareMathOperator{\Len}{taille}
+\newcommand\POOpoint{\,\textbf{.}\,}
+
+
+\newcommand\AddList{\mathbin{\boxplus}}
+
+
+% Algo - Lists - Append and prepend
+
+\newcommand\Append{\@ifstar{\@Append@star}{\@Append@no@star}}
+
+\newcommand\@Append@no@star[2]{Ajouter le nouvel élément #2 après la fin de la liste #1.}
+
+\newcommand\@Append@star{\@ifstar{\@Append@star@star}{\@Append@single@star}}
+
+\newcommand\@Append@single@star[2]{$#1$\POOpoint{}ajouter-droite($#2$)}
+\newcommand\@Append@star@star[2]{$#1 \Store #1 \AddList \List{#2}$}
+
+
+\newcommand\Prepend{\@ifstar{\@Prepend@star}{\@Prepend@no@star}}
+
+\newcommand\@Prepend@no@star[2]{Ajouter le nouvel élément #2 avant le début de la liste #1.}
+
+\newcommand\@Prepend@star{\@ifstar{\@Prepend@star@star}{\@Prepend@single@star}}
+
+\newcommand\@Prepend@single@star[2]{$#1$\POOpoint{}ajouter-gauche($#2$)}
+
+\newcommand\@Prepend@star@star[2]{$#1 \Store \List{#2} \AddList #1$}
+
+
+% Algo - Lists - Pop at
+
+\newcommand\@add@one[2]{%
+		\if\relax\detokenize\expandafter{\romannumeral-0#1}\relax%
+			\the\numexpr #1+1 \relax%
+		\else%
+			#1 + 1%
+		\fi%
+}
+
+\newcommand\@list@until@minus@one[2]{%
+	\if\relax\detokenize\expandafter{\romannumeral-0#2}\relax%
+			\def\minusone{\the\numexpr #2-1 \relax}%
+			\xintiiifNotZero{\minusone}{%
+				 \ListUntil{#1}{\minusone} \AddList%
+			}{}%
+		\else%
+			\ListUntil{#1}{#2 - 1} \AddList%
+		\fi%
+}
+
+\def\@list@before@at@after#1{\@split@before@at@after#1\relax}
+\def\@split@before@at@after#1|#2|#3|#4\relax{%
+	\ListElt{#1}{#3} ,%
+	\ListUntil{#1}{#2}%
+	\AddList%
+	\ListFrom{#1}{#4}%
+}
+
+\newcommand\PopAt{\@ifstar{\@PopAt@star}{\@PopAt@no@star}}
+
+\newcommand\@PopAt@no@star[2]{Élément à la position #2 dans la liste #1, cet élément étant retiré de la liste.}
+
+\newcommand\@PopAt@star{\@ifstar{\@PopAt@star@star}{\@PopAt@single@star}}
+
+\newcommand\@PopAt@single@star[2]{$#1$\POOpoint{}extraire($#2$)}
+
+\newcommand\@PopAt@star@star[3]{%
+	$%
+		#1 , #2%
+		\MStore%
+		\instringTF{|}{#3}{%
+			\@list@before@at@after{#2|#3}%
+		}{%
+			\ListElt{L}{#3} ,%
+			\@list@until@minus@one{#2}{#3}%	
+			\ListFrom{#2}{\@add@one{#3}}%
+		}%
+	$%
+}
+
+
+
+
+
+
+
+% Algo - Lists - Keep
+
+\newcommand\KeepLR[3]{$#1 \Store \ListUntil{#1}{#2} \AddList \ListFrom{#1}{#3}$}
+\newcommand\KeepR[2]{$#1 \Store \ListFrom{#1}{#2}$}
+\newcommand\KeepL[2]{$#1 \Store \ListUntil{#1}{#2}$}
+
+
+% --------------- %
+% -- FLOWCHART -- %
+% --------------- %
+
+% TiKz - Flow charts - Colors
+
+\newcommand\aciocolor{red!20}
+\newcommand\acinstrcolor{blue!20}
+\newcommand\acifcolor{yellow!20}
+\newcommand\aclinkcolor{black}
+
+\newcommand\acusecolor{
+    \renewcommand\aciocolor{red!20}
+    \renewcommand\acinstrcolor{blue!20}
+    \renewcommand\acifcolor{yellow!20}
+}
+
+\newcommand\acusebw{
+    \renewcommand\aciocolor{white}
+    \renewcommand\acinstrcolor{white}
+    \renewcommand\acifcolor{white}
+}
+
+
+
+% TiKz - Flow charts - Styles
+
+\usetikzlibrary{shapes, arrows, calc, positioning}
+
+% Source
+%     * https://tex.stackexchange.com/a/513231/6880
+\@for\next:={above,below,right,left}\do{%
+\expandafter\edef\csname aclabel\next\endcsname#1{node[near start, \next]{#1}}}
+
+
+
+\newenvironment{algochart}[1][]{
+    \begin{tikzpicture}[#1]
+}{
+    \end{tikzpicture}
+}
+
+% Source for zigzags and backloop.
+%	* https://tex.stackexchange.com/a/513236/6880
+
+\tikzset{
+    % Input / Output
+    acio/.style = {
+        draw, ellipse,
+        fill           = \aciocolor,
+        node distance  = 2.5cm,
+        minimum height = 2em,
+        text width     = 5.5em,
+        text centered,
+    },
+    % Instruction
+    acinstr/.style = {
+        draw, rectangle, rounded corners,
+        fill           = \acinstrcolor,
+        node distance  = 2.5cm,
+        minimum height = 2em,
+        text width     = 5.5em,
+        text centered,
+    },
+    % Conditional node
+    acif/.style = {
+        draw, diamond,
+        fill          = \acifcolor,
+        node distance = 2.5cm,
+        inner sep     = 0pt,
+        text width    = 5.5em,
+        text badly centered,
+    },
+    acifinstr/.style = {
+        draw, rectangle, rounded corners,
+        fill           = \acifcolor,
+        node distance  = 2.5cm,
+        minimum height = 2em,
+        text width     = 5.5em,
+        text centered,
+    },
+    % Connection
+    aclink/.style = {
+        draw, -triangle 60,
+        color = \aclinkcolor,
+    },
+}
+
+
+% WARNING ! We need to separate the settings !
+
+\tikzset{
+    % Zigzag
+    aczigzag/.style = {
+    	/utils/exec = \tikzset{aczigzag/.cd,#1},
+        to path     = {
+            ([xshift = \pgfkeysvalueof{/tikz/aczigzag/xstart}] \tikztostart)
+         |- ([xshift = \pgfkeysvalueof{/tikz/aczigzag/x}, 
+              yshift = \pgfkeysvalueof{/tikz/aczigzag/y}] \tikztotarget.north)
+         -- ([xshift = \pgfkeysvalueof{/tikz/aczigzag/x}] \tikztotarget.north)
+        }
+    },
+    aczigzag/.cd,xstart/.initial=0mm,x/.initial=3mm,y/.initial=5mm,
+}
+
+\tikzset{
+ 	% Left back loop
+    acbackloopleft/.style = {
+    	/utils/exec = \tikzset{acbackloopleft/.cd,#1},
+        to path     = {
+            (\tikztostart.west)
+         -- ([xshift = \pgfkeysvalueof{/tikz/acbackloopleft/x}] \tikztostart.west)
+         |- (\tikztotarget.west)
+        }
+    },
+    acbackloopleft/.cd,x/.initial=-5em,
+}
+
+\tikzset{
+ 	% Right back loop
+    acbackloopright/.style = {
+    	/utils/exec = \tikzset{acbackloopright/.cd,#1},
+        to path     = {
+            (\tikztostart.east)
+         -- ([xshift = \pgfkeysvalueof{/tikz/acbackloopright/x}] \tikztostart.east)
+         |- (\tikztotarget.east)
+        }
+    },
+    acbackloopright/.cd,x/.initial=5em,
+}

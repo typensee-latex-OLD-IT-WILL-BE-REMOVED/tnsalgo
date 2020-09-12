@@ -1,0 +1,81 @@
+\documentclass[12pt,a4paper]{article}
+
+\makeatletter
+	\input{../config/header[fr].sty}
+
+	\input{01-algo-env.sty}
+	\input{00-keywords.sty}
+\makeatother
+
+
+
+\begin{document}
+
+%\section{Algorithmes en langage naturel}
+
+\subsection{Diverses commandes}
+
+Pour finir voici un ensemble de mots supplémentaires qui pourront vous rendre service. Le préfixe \verb+m+ permet d'utiliser des versions \og masculinisées \fg{} des textes proposés.
+
+\newparaexample{Opérateurs booléens}
+
+\begin{latexex}
+A \And B \Or C
+\end{latexex}
+
+
+% ---------------------- %
+
+
+\newparaexample{Interface}
+
+\begin{latexex}
+\Return RÉSULTAT
+
+\Ask "Quelque chose"
+
+\Print "Quelque chose"
+\end{latexex}
+
+
+% ---------------------- %
+
+
+\newparaexample{Itérations sur des entiers consécutifs}
+
+\begin{latexex}
+$k$ \From $1$ \To $n$
+
+$k$ \ComingFrom $1$ \GoingTo $n$
+\end{latexex}
+
+
+% ---------------------- %
+
+
+\newparaexample{Itération sur un ensemble}
+
+\begin{latexex}
+$e$ \InThis $\{ 1 , 4 , 16 \}$
+\end{latexex}
+
+
+% ---------------------- %
+
+
+\newparaexample{Itération sur une liste}
+
+\prefix{LtoR} est pour \og Left to Right \fg{} soit \inenglish{de droite à gauche}, et \prefix{RtoL} est pour \og Right to Left \fg{}.
+
+
+\begin{latexex}
+$L$ \LtoR
+
+$L$ \mLtoR
+
+$L$ \RtoL
+
+$L$ \mRtoL
+\end{latexex}
+
+\end{document}

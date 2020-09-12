@@ -1,0 +1,40 @@
+\documentclass[12pt,a4paper]{article}
+
+\makeatletter
+	\input{../config/header[fr].sty}
+	\usepackage{00-keywords}
+
+	\input{01-algo-env.sty}
+\makeatother
+
+
+\begin{document}
+
+%\section{Algorithmes en langage naturel}
+
+%\subsection{L'environnement \texttt{algo}}
+
+\subsubsection{Un titre ou pas}
+
+\newparaexample{Algorithme numéroté (par défaut)}
+
+\inputlatexex{examples/algo-natural-title-empty.extra.tex}
+
+
+% ---------------------- %
+
+
+\newparaexample{Algorithme numéroté avec un titre}
+
+\inputlatexex{examples/algo-natural-title.extra.tex}
+
+
+% ---------------------- %
+
+
+\newparaexample{Aucun titre}
+
+\inputlatexex{examples/algo-natural-title-no.extra.tex}
+
+\end{document}
+

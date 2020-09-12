@@ -1,0 +1,27 @@
+\documentclass[12pt,a4paper]{article}
+
+\makeatletter
+    \input{../config/header[fr].sty}
+
+    \usepackage{01-flowchart}
+\makeatother
+
+
+\newcommand\Store{\leftarrow}
+\newcommand\List[1]{[\,#1\,]}
+\newcommand\EmptyList{\List{}}
+
+
+\begin{document}
+
+%\section{Ordinogrammes}
+
+\subsection{L'environnement \texttt{algochart}}
+
+Tous les codes seront placés dans l'environnement \verb+algochart+ qui pour le moment est juste un alias de l'environnement \verb+tikzpicture+ proposé par \verb+TikZ+ qui fait le principal du travail
+\footnote{
+	\texttt{algochart} vient de la contraction de \og algorithmic \fg{} et \og flowchart \fg{} soit \og algotithmique \fg{} et \og diagramme \fg{} en anglais.
+}.
+\verb#tnsalgo# définit juste quelques styles et quelques macros pour faciliter la saisie des ordinogrammes afin de travailler efficacement avec les macros \macro{node} et \macro{path} proposées par \verb#TikZ#.
+
+\end{document}

@@ -1,0 +1,37 @@
+\documentclass[12pt,a4paper]{article}
+
+\makeatletter
+	\input{../config/header[fr].sty}
+	\usepackage{00-keywords}
+
+	\input{01-algo-env.sty}
+\makeatother
+
+
+\begin{document}
+
+%\section{Algorithmes en langage naturel}
+
+%\subsection{L'environnement \texttt{algo}}
+
+\subsection{Fiches techniques}
+
+\IDenv[o]{algo}{1}
+
+\IDoption{} on utilise un système clé/valeur.
+\begin{enumerate}
+	\item \verb#notitle# permet de ne pas avoir de titre.
+	      Par défaut \verb#notitle = false#.
+
+	\item \verb#title# est le titre complémentaire.
+	      Par défaut \verb#title = {}#.
+
+	\item \verb#frame# demande d'ajouter un cadre.
+
+	\item \verb#center# sert à centrer le contenu.
+
+	\item \verb#scale# donne le coefficient multiplicateur à appliquer à la largeur de la ligne.
+	      Par défaut \verb#scale = 1#.
+\end{enumerate}
+
+\end{document}

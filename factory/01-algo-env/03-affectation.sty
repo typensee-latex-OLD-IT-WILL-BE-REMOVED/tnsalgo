@@ -1,0 +1,32 @@
+% == PACKAGES USED == %
+
+\RequirePackage{mathtools}
+
+
+% == DEFINITIONS == %
+
+% Source: https://tex.stackexchange.com/a/510011/6880
+
+\newcommand\PutIn{\rightarrow}
+\newcommand\MPutIn{\rightrightarrows}
+
+\newcommand\MStore{\leftleftarrows}
+
+
+\newcommand{\tnsalgo@special@hat}[2]{%
+    \begingroup
+        \sbox\z@{$\m@th#1=$}%
+        \ooalign{%
+            \hidewidth\raisebox{-0.3\ht\z@}{$\m@th#1\widehat{}$}\hidewidth\cr
+            \box\z@\cr
+        }%
+    \endgroup
+}
+
+\newcommand\Store{\@ifstar{\@Store@pre@star}{\@Store@no@star}}
+\newcommand\@Store@pre@star{\@ifstar{\@Store@star@star}{\@Store@star}}
+
+\newcommand\@Store@no@star{\leftarrow}
+\newcommand\@Store@star{\mathrel{\mathpalette\tnsalgo@special@hat\relax}}
+\newcommand\@Store@star@star{\triangleq}
+

@@ -1,0 +1,92 @@
+\newcommand\uselangEN{
+% Textual versions
+    \protected\def\txtIf{\@ifstar\tnsalgo@txtIf@star\tnsalgo@txtIf@no@star}
+    \def\tnsalgo@txtIf@no@star{\textbf{If}}
+    \def\tnsalgo@txtIf@star{\texttt{If}}
+
+    \protected\def\txtIfElse{\@ifstar\tnsalgo@txtIfElse@star\tnsalgo@txtIfElse@no@star}
+    \def\tnsalgo@txtIfElse@no@star{\textbf{If\,--\,Else}}
+    \def\tnsalgo@txtIfElse@star{\texttt{If\,-\,Else}}
+
+    \protected\def\txtIfElseIf{\@ifstar\tnsalgo@txtIfElseIf@star\tnsalgo@txtIfElseIf@no@star}
+    \def\tnsalgo@txtIfElseIf@no@star{\textbf{If\,--\,Else\,--\,If}}
+    \def\tnsalgo@txtIfElseIf@star{\texttt{If\,-\,Else\,-\,If}}
+
+    \protected\def\txtIfElseIfElse{\@ifstar\tnsalgo@txtIfElseIfElse@star\tnsalgo@txtIfElseIfElse@no@star}
+    \def\tnsalgo@txtIfElseIfElse@no@star{\textbf{If\,--\,Else If\,--\,Else}}
+    \def\tnsalgo@txtIfElseIfElse@star{\texttt{If\,-\,Else If\,-\,Else}}
+
+    \protected\def\txtFor{\@ifstar\tnsalgo@txtFor@star\tnsalgo@txtFor@no@star}
+    \def\tnsalgo@txtFor@no@star{\textbf{For}}
+    \def\tnsalgo@txtFor@star{\texttt{For}}
+
+    \protected\def\txtWhile{\@ifstar\tnsalgo@txtWhile@star\tnsalgo@txtWhile@no@star}
+    \def\tnsalgo@txtWhile@no@star{\textbf{While}}
+    \def\tnsalgo@txtWhile@star{\texttt{While}}
+
+    \protected\def\txtRepeat{\@ifstar\tnsalgo@txtRepeat@star\tnsalgo@txtRepeat@no@star}
+    \def\tnsalgo@txtRepeat@no@star{\textbf{Repeat\,--\,Until}}
+    \def\tnsalgo@txtRepeat@star{\texttt{Repeat\,-\,Until}}
+
+    \protected\def\txtSwitch{\@ifstar\tnsalgo@txtSwitch@star\tnsalgo@txtSwitch@no@star}
+    \def\tnsalgo@txtSwitch@no@star{\textbf{Switch\,--\,Case}}
+    \def\tnsalgo@txtSwitch@star{\texttt{Switch\,-\,Case}}
+
+% For
+    \SetKwFor{For}{For}{:}{}
+    \SetKwFor{ForAll}{{For All}}{:}{}
+    \SetKwFor{ForEach}{{For Each}}{:}{}
+    \SetKwFor{While}{While}{:}{}
+    
+% Repeat
+    \SetKwRepeat{Repeat}{Repeat}{Until}
+    
+% Word
+    \SetKw{And}{and}
+    \SetKw{Or}{or}
+    
+% Ifelif
+    \SetKwIF{If}{ElseIf}{Else}{If}{:}{{Else If}}{Else}{}
+    
+% Switch
+    \SetKwSwitch{Switch}{Case}{Other}{Switch}{:}{Case}{Other}{}{}
+    
+% Word
+    \SetKw{From}{from}
+    \SetKw{To}{to}
+    \SetKw{ComingFrom}{{coming from}}
+    \SetKw{GoingTo}{{going to}}
+    \SetKw{InThis}{in}
+    \SetKw{LtoR}{{read from left to right}}
+    \SetKw{mLtoR}{mLtoR}
+    \SetKw{RtoL}{{read from right to left}}
+    \SetKw{mRtoL}{mRtoL}
+    
+% Block
+    \SetKwBlock{Actions}{Actions}{}
+    \SetKwBlock{Begin}{Begin}{}
+    
+% Input
+    \SetKwInput{In}{Input}
+    \SetKwInput{Ins}{Inputs}
+    \SetKwInput{Out}{Output}
+    \SetKwInput{Outs}{Outputs}
+    \SetKwInput{Data}{Data}
+    \SetKwInput{Datas}{Datas}
+    \SetKwInput{Result}{Result}
+    \SetKwInput{Results}{Results}
+    \SetKwInput{InState}{{Initial State}}
+    \SetKwInput{InStates}{{Initial States}}
+    \SetKwInput{OutState}{{Final State}}
+    \SetKwInput{OutStates}{{Final States}}
+    \SetKwInput{PreCond}{Precondition}
+    \SetKwInput{PreConds}{Preconditions}
+    \SetKwInput{PostCond}{Postcondition}
+    \SetKwInput{PostConds}{Postconditions}
+    
+% Word
+    \SetKw{Return}{Return}
+    \SetKw{Ask}{Ask}
+    \SetKw{Print}{Print}
+}
+        

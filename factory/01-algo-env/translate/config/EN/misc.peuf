@@ -1,0 +1,12 @@
+word::
+    From = from
+    To   = to
+
+    ComingFrom = coming from
+    GoingTo    = going to
+
+    InThis = in
+    LtoR   = read from left to right
+    mLtoR  =
+    RtoL   = read from right to left
+    mRtoL  =

@@ -1,0 +1,17 @@
+% == PACKAGES USED == %
+
+\RequirePackage[french, vlined]{algorithm2e}
+
+
+% == DEFINITIONS == %
+
+\SetKwComment{Comment}{{\# }}{}
+
+\input{translate/tnsalgo_EN.sty}
+\input{translate/tnsalgo_FR.sty}
+
+\@ifpackagewith{babel}{french}{
+   \uselangFR{}
+}{
+   \uselangEN{}
+}

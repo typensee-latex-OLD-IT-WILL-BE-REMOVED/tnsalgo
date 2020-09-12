@@ -1,0 +1,33 @@
+\documentclass[12pt,a4paper]{article}
+
+\makeatletter
+	\input{../config/header[fr].sty}
+
+	\input{01-algo-env.sty}
+	
+	\usepackage{00-keywords}
+\makeatother
+
+
+
+\begin{document}
+
+%\section{Algorithmes en langage naturel}
+
+%\subsection{Des macros pour structurer les algorithmes}
+
+\subsubsection{Disjonction conditionnelle \txtIf*}
+
+Ci-dessous le préfixe \prefix{u}, pour \whyprefix{u}{nclosed} soit \inenglish{non fermé}, demande de ne pas fermer horizontalement le bloc.
+
+\inputlatexex{examples/keyword-cond-ifelif.extra.tex}
+
+
+% ---------------------- %
+
+
+\subsubsection{Disjonction de cas via \txtSwitch*}
+
+\inputlatexex{examples/keyword-cond-switch.extra.tex}
+
+\end{document}

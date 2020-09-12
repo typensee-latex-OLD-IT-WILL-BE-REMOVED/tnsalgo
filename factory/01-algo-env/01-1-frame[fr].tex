@@ -1,0 +1,33 @@
+\documentclass[12pt,a4paper]{article}
+
+\makeatletter
+	\input{../config/header[fr].sty}
+	\usepackage{00-keywords}
+	\input{03-affectation.sty}
+	\input{02-algo-structure.sty}
+
+	\usepackage{01-algo-env}
+\makeatother
+
+
+
+\begin{document}
+
+%\section{Algorithmes en language naturel}
+
+\subsection{L'environnement \texttt{algo}}
+
+\subsubsection{Cadre et largeur}
+
+L'option \verb#frame# de l'environnement \verb#algo# demande d'encadrer les algorithmes afin de les rendre plus visibles.
+Indiquons qu'ici sont utilisées les macros \macro{NNs} et \macro{dsum} fournies par le package \verb#tnsmath#.
+
+\inputlatexex{examples/algo-natural-stupid.extra.tex}
+
+
+L'environnement \verb#algo# propose l'option \verb#scale# pour indiquer la largeur relativement à celle de la ligne et une autre \verb#center# pour centrer l'algorithme qui permettent d'obtenir ce qui suit.
+
+\vspace{-1em}
+\inputlatexexcodeafter{examples/algo-natural-stupid-scaled-center.extra.tex}
+
+\end{document}
