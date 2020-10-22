@@ -1,0 +1,8 @@
+==========
+2020-10-22
+==========
+
+**New sub minor version version::``0.0.1-beta`` of ¨tnsalgo:** see the changes below.
+
+
+**Unexpected bug:** in the internal macro ``\tnspalgo@void@caption``, the command ``\SetAlCapNameSty`` has been removed.
